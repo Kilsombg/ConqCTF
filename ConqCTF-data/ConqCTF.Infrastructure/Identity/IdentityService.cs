@@ -1,24 +1,39 @@
 ﻿using ConqCTF.Application.Common.Interfaces;
 using ConqCTF.Application.Common.Models;
+using ConqCTF.Infrastructure.Data;
+using ConqCTF.Infrastructure.Identity.JWT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace ConqCTF.Infrastructure.Identity
 {
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _context;
         private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
         public IdentityService(
             UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext context,
             IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
-            IAuthorizationService authorizationService)
+            IAuthorizationService authorizationService,
+            IJwtTokenGenerator jwtTokenGenerator)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
+            _context = context;
+            _context = context;
             _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
             _authorizationService = authorizationService;
+            _jwtTokenGenerator = jwtTokenGenerator;
+            _context = context;
         }
 
         public async Task<string?> GetUserNameAsync(string userId)
@@ -77,6 +92,75 @@ namespace ConqCTF.Infrastructure.Identity
 
             return result.ToApplicationResult();
         }
-    }
 
+        public async Task<(Result, string AccessToken, string RefreshToken)> LoginAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+                return (Result.Failure(new[] { "Invalid credentials" }),
+                    string.Empty, string.Empty);
+
+            var result = await _signInManager.CheckPasswordSignInAsync(
+                user,
+                password,
+                lockoutOnFailure: true);
+
+            if (!result.Succeeded)
+                return (Result.Failure(new[] { "Invalid credentials" }),
+                    string.Empty, string.Empty);
+
+            var accessToken = await _jwtTokenGenerator.GenerateTokenAsync(user);
+
+            var refreshToken = GenerateRefreshToken();
+
+            _context.RefreshTokens.Add(new RefreshToken
+            {
+                Token = refreshToken,
+                UserId = user.Id,
+                Expires = DateTime.UtcNow.AddDays(15)
+            });
+
+            return (Result.Success(), accessToken, refreshToken);
+        }
+
+        public async Task<(Result, string AccessToken)> RefreshTokenAsync(string refreshToken)
+        {
+            var storedToken = await _context.RefreshTokens
+                .Include(rt => rt.User)
+                .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+
+            if (storedToken is null ||
+                storedToken.IsRevoked ||
+                storedToken.Expires < DateTime.UtcNow)
+            {
+                return (Result.Failure(new[] { "Invalid refresh token" }), "");
+            }
+
+            var newAccessToken = await _jwtTokenGenerator.GenerateTokenAsync(storedToken.User);
+
+            return (Result.Success(), newAccessToken);
+        }
+
+        public async Task<Result> LogoutAsync(string refreshToken)
+        {
+            var storedToken = await _context.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+
+            if (storedToken is null)
+                return Result.Success();
+
+            storedToken.IsRevoked = true;
+
+            await _context.SaveChangesAsync();
+
+            return Result.Success();
+        }
+
+        #region Helper methods
+        private static string GenerateRefreshToken()
+        {
+            return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+        }
+        #endregion
+    }
 }

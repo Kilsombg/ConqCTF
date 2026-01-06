@@ -16,6 +16,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,10 +29,16 @@ if (app.Environment.IsDevelopment())
     await app.Services.InitialiseDatabaseAsync();
 }
 
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(builder.Configuration["JWT:ClientUrl"]);
+});
+
 app.UseHttpsRedirection();
 
 app.UseExceptionHandler(options => { });
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
