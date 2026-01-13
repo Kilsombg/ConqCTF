@@ -109,7 +109,6 @@ export class JwtInterceptor implements HttpInterceptor {
 
   private isAuthEndpoint(request: HttpRequest<any>): boolean {
     return request.url.includes('/auth/login')
-        || request.url.includes('/auth/refresh')
-        || request.url.includes('/auth/logout');
+        || request.url.includes('/auth/refresh');
   }
 }

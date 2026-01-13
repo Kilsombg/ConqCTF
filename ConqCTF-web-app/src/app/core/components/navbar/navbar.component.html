@@ -1,0 +1,23 @@
+<nav class="navbar">
+
+  <a routerLink="/challenges">Challenges</a>
+
+  <ng-container *ngIf="user$ | async as user; else guest">
+
+    <span>Welcome, {{ user.email }}</span>
+
+    <a *ngIf="isAdmin(user)"
+       routerLink="/admin/challenges/create">
+       Create Challenge
+    </a>
+
+    <button (click)="logout()">Logout</button>
+
+  </ng-container>
+
+  <ng-template #guest>
+    <a routerLink="/auth/login">Login</a>
+    <a routerLink="/auth/register">Register</a>
+  </ng-template>
+
+</nav>

@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { LoginRequest, LoginResponse, RefreshTokenResponce } from '../../auth/auth.models';
 import { TokenService } from './token.service';
 import { environment } from 'src/environments/environment.development';
+import { AuthStateService } from './auth-state.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private authStateService: AuthStateService
   ) {}
 
   login(request: LoginRequest): Observable<LoginResponse> {
@@ -23,6 +25,8 @@ export class AuthService {
       .pipe(
         tap(response => {
           this.tokenService.saveTokens(response.accessToken, response.refreshToken);
+
+          this.authStateService.setAuthenticated();
         })
       );
   }
@@ -44,7 +48,10 @@ export class AuthService {
     return this.http
       .post<void>(`${this.apiUrl}/logout`, {refreshToken})
       .pipe(
-        tap(() => this.tokenService.clearTokens())
+        tap(() => {
+          this.tokenService.clearTokens();
+          this.authStateService.clear();
+        })
       );
   }
 
