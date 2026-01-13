@@ -22,7 +22,7 @@ export class AuthService {
       .post<LoginResponse>(`${this.apiUrl}/login`, request)
       .pipe(
         tap(response => {
-          this.tokenService.saveTokens(response.aaccessToken, response.refreshToken);
+          this.tokenService.saveTokens(response.accessToken, response.refreshToken);
         })
       );
   }

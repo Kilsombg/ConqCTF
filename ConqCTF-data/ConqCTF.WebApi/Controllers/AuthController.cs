@@ -2,7 +2,7 @@
 using ConqCTF.Application.Auth.Commands.LogoutUser;
 using ConqCTF.Application.Auth.Commands.RefreshToken;
 using ConqCTF.Application.Auth.Commands.RegisterUser;
-using ConqCTF.WebApi.Models.Requests;
+using ConqCTF.WebApi.Models.Auth.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

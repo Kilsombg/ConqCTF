@@ -31,7 +31,7 @@ namespace ConqCTF.Infrastructure.Identity.JWT
                 new(ClaimTypes.NameIdentifier, user.Id)
             };
 
-            claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
+            claims.AddRange(roles.Select(r => new Claim("role", r)));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
 
@@ -39,9 +39,8 @@ namespace ConqCTF.Infrastructure.Identity.JWT
 
             var token = new JwtSecurityToken(
                 issuer: _settings.Issuer,
-                audience: _settings.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(_settings.ExpiresInMinutes),
+                expires: DateTime.UtcNow.AddMinutes(_settings.ExpiresInMinutes),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

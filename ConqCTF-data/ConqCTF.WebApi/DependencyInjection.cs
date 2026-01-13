@@ -8,9 +8,10 @@ namespace ConqCTF.WebApi
     {
         public static void AddWebServices(this IHostApplicationBuilder builder)
         {
+            builder.Services.AddHttpContextAccessor();
+
             builder.Services.AddScoped<IUser, CurrentUser>();
 
-            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddExceptionHandler<CustomExceptionHandler>();
         }

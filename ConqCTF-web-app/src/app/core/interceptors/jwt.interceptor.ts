@@ -43,6 +43,7 @@ export class JwtInterceptor implements HttpInterceptor {
     let authRequest = request;
     if (accessToken) {
       authRequest = request.clone({
+        withCredentials: true,
         setHeaders: { Authorization: `Bearer ${accessToken}` }
       });
     }

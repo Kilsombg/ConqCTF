@@ -51,4 +51,30 @@ isAccessTokenExpired(): boolean {
 
   return expiration <= new Date();
 }
+
+getTokenPayload(): any | null {
+  const token = this.getAccessToken();
+  if (!token) return null;
+
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch {
+    return null;
+  }
+}
+
+getUserRoles(): string[] {
+  const payload = this.getTokenPayload();
+  if (!payload) return [];
+
+  const roles = payload.role || payload.roles;
+
+  if (!roles) return [];
+
+  return Array.isArray(roles) ? roles : [roles];
+}
+
+hasRole(role: string): boolean {
+  return this.getUserRoles().includes(role);
+}
 }

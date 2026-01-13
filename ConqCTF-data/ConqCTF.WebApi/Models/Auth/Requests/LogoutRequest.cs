@@ -1,4 +1,4 @@
-﻿namespace ConqCTF.WebApi.Models.Requests
+﻿namespace ConqCTF.WebApi.Models.Auth.Requests
 {
     public record LogoutRequest
     {

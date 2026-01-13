@@ -1,6 +1,6 @@
-﻿namespace ConqCTF.WebApi.Models.Requests
+﻿namespace ConqCTF.WebApi.Models.Auth.Requests
 {
-    public record LoginRequest
+    public record RegisterRequest
     {
         public string? Email { get; set; }
 

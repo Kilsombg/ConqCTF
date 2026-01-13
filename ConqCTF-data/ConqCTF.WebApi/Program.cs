@@ -31,12 +31,24 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(opt =>
 {
-    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(builder.Configuration["JWT:ClientUrl"]);
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(builder.Configuration["JWT:Audience"]);
 });
 
 app.UseHttpsRedirection();
 
 app.UseExceptionHandler(options => { });
+
+app.UseRouting();
+
+/*
+app.Use(async (context, next) =>
+{
+    var authHeader = context.Request.Headers.Authorization.ToString();
+    Console.WriteLine($"Authorization header: {authHeader}");
+
+    await next();
+});
+*/
 
 app.UseAuthentication();
 app.UseAuthorization();

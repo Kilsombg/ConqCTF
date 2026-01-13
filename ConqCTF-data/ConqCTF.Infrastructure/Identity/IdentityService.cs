@@ -29,11 +29,9 @@ namespace ConqCTF.Infrastructure.Identity
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
-            _context = context;
             _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
             _authorizationService = authorizationService;
             _jwtTokenGenerator = jwtTokenGenerator;
-            _context = context;
         }
 
         public async Task<string?> GetUserNameAsync(string userId)
@@ -120,6 +118,8 @@ namespace ConqCTF.Infrastructure.Identity
                 UserId = user.Id,
                 Expires = DateTime.UtcNow.AddDays(15)
             });
+
+            await _context.SaveChangesAsync();
 
             return (Result.Success(), accessToken, refreshToken);
         }

@@ -1,0 +1,57 @@
+<h2>Create Challenge</h2>
+
+<form (ngSubmit)="submit()">
+
+  <label>
+    Title
+    <input type="text" [(ngModel)]="title" name="title" required />
+  </label>
+
+  <label>
+    Description
+    <textarea [(ngModel)]="description" name="description"></textarea>
+  </label>
+
+  <label>
+    Category
+    <select [(ngModel)]="category" name="category">
+        <option [value]="1">Cryptography</option>
+      <option [value]="2">Web</option>
+      <option [value]="3">ReverseEngineering</option>
+      <option [value]="4">Forensics</option>
+      <option [value]="5">GeneralSkills</option>
+      <option [value]="6">BinaryExpoitation</option>
+      <option [value]="7">Misc</option>
+    </select>
+  </label>
+
+  <label>
+    Difficulty
+    <select [(ngModel)]="difficulty" name="difficulty">
+      <option [value]="1">Easy</option>
+      <option [value]="2">Medium</option>
+      <option [value]="3">Hard</option>
+    </select>
+  </label>
+
+  <label>
+    Points
+    <input type="number" [(ngModel)]="points" name="points" required />
+  </label>
+
+  <label>
+    Flag
+    <input type="text" [(ngModel)]="flag" name="flag" required />
+  </label>
+
+  <label>
+    Files
+    <input type="file" multiple (change)="onFilesSelected($event)" />
+  </label>
+
+  <button type="submit">Create</button>
+
+  <p *ngIf="error" style="color:red">{{ error }}</p>
+  <p *ngIf="success" style="color:green">{{ success }}</p>
+
+</form>

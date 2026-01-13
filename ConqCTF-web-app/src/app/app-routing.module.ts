@@ -1,6 +1,7 @@
-import { inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
+import { AdminGuard } from './core/guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -13,6 +14,12 @@ const routes: Routes = [
     canActivate : [AuthGuard],
     loadChildren: () =>
       import('./challenges/challenges.module').then(m => m.ChallengesModule)
+  },
+  {
+    path: 'admin',
+    canActivate: [AuthGuard, AdminGuard],
+    loadChildren: () =>
+      import('./admin/admin.module').then(m => m.AdminModule),
   },
   {
     path: '',
