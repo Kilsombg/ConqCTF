@@ -9,7 +9,7 @@
                 .EmailAddress();
 
             RuleFor(v => v.Password)
-                .MinimumLength(8);
+                .MinimumLength(6);
         }
     }
 }
