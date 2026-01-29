@@ -1,1 +1,82 @@
-<p>challenge-details works!</p>
+<ng-container *ngIf="challenge; else loading">
+
+    <mat-card class="challenge-details-card">
+
+        <mat-card-title>
+            {{ challenge.title }}
+        </mat-card-title>
+
+        <button mat-icon-button mat-dialog-close class="close-btn" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+
+
+        <mat-card-subtitle>
+            <mat-chip-set>
+                <mat-chip highlighted color="primary">
+                    {{ categoryLabel(challenge.category) }}
+                </mat-chip>
+
+                <mat-chip highlighted color="accent">
+                    {{ difficultyLabel(challenge.difficulty) }}
+                </mat-chip>
+
+                <mat-chip>
+                    {{ challenge.points }} pts
+                </mat-chip>
+            </mat-chip-set>
+        </mat-card-subtitle>
+
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+            <p class="description">
+                {{ challenge.description }}
+            </p>
+
+            <div *ngIf="challenge.files?.length">
+                <h4>Files</h4>
+
+                <mat-list>
+                    <mat-list-item *ngFor="let file of challenge.files">
+                        <span matListItemTitle>{{ file.fileName }}</span>
+                        <button mat-icon-button color="primary" (click)="download(file.fileName!)">
+                            <mat-icon>download</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+        </mat-card-content>
+
+        <mat-divider></mat-divider>
+
+        <mat-card-actions>
+            <form (ngSubmit)="submitFlag()" class="flag-form">
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Flag</mat-label>
+                    <input matInput [(ngModel)]="flag" name="flag" required autocomplete="off"
+                        placeholder="ConqCTF{...}">
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" type="submit">
+                    Submit Flag
+                </button>
+            </form>
+
+            <mat-hint class="success" *ngIf="success">
+                {{ success }}
+            </mat-hint>
+
+            <mat-hint class="error" *ngIf="error">
+                {{ error }}
+            </mat-hint>
+
+        </mat-card-actions>
+
+    </mat-card>
+</ng-container>
+
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>

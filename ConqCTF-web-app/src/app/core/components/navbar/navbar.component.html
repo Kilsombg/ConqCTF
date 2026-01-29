@@ -1,23 +1,52 @@
-<nav class="navbar">
+<mat-toolbar color="primary" class="navbar">
 
-  <a routerLink="/challenges">Challenges</a>
+  <span class="app-title" routerLink="/challenges">
+    ConqCTF
+  </span>
+
+  <span class="spacer"></span>
+
+  <button mat-icon-button (click)="toggleTheme()">
+    <mat-icon>
+      {{ isDark ? 'dark_mode' : 'light_mode' }}
+    </mat-icon>
+
+  </button>
+
 
   <ng-container *ngIf="user$ | async as user; else guest">
 
-    <span>Welcome, {{ user.email }}</span>
+    <span class="welcome">
+      Welcome, {{ user.email }}
+    </span>
 
-    <a *ngIf="isAdmin(user)"
-       routerLink="/admin/challenges/create">
-       Create Challenge
-    </a>
+    <button
+      mat-button
+      *ngIf="isAdmin(user)"
+      routerLink="/admin/challenges/create">
+      Create Challenge
+    </button>
 
-    <button (click)="logout()">Logout</button>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </mat-menu>
 
   </ng-container>
 
   <ng-template #guest>
-    <a routerLink="/auth/login">Login</a>
-    <a routerLink="/auth/register">Register</a>
+    <button mat-button routerLink="/auth/login">
+      Login
+    </button>
+    <button mat-raised-button color="accent" routerLink="/auth/register">
+      Register
+    </button>
   </ng-template>
 
-</nav>
+</mat-toolbar>

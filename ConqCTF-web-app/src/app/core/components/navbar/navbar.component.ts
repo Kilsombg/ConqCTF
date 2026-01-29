@@ -3,6 +3,7 @@ import { AuthStateService, AuthUser } from '../../services/auth-state.service';
 import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,6 +16,7 @@ user$: Observable<AuthUser | null>;
   constructor(
     private authState: AuthStateService,
     private authService: AuthService,
+    private themeService: ThemeService,
     private routing: Router
   ) {
     this.user$ = this.authState.user$;
@@ -26,5 +28,13 @@ user$: Observable<AuthUser | null>;
 
   isAdmin(user: AuthUser): boolean {
     return !!user && user.roles.includes('Administrator');
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggle();
+  }
+
+  get isDark() : boolean {
+    return this.themeService.isDark();
   }
 }

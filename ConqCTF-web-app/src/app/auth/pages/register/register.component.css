@@ -1,0 +1,21 @@
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  margin: 4rem auto;
+  padding: 1.5rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+mat-card-title {
+  margin-bottom: 1rem;
+}

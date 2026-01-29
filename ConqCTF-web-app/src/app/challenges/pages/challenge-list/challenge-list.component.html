@@ -1,1 +1,61 @@
-<p>challenge-list works!</p>
+<mat-sidenav-container class="container">
+
+    <mat-sidenav mode="side" opened class="sidenav">
+        <h3>Filters</h3>
+
+        <h4>Category</h4>
+        <mat-selection-list>
+            <mat-list-option *ngFor="let c of categories" [value]="c.value">
+                {{ c.label }}
+            </mat-list-option>
+        </mat-selection-list>
+
+        <h4>Difficulty</h4>
+        <mat-selection-list>
+            <mat-list-option *ngFor="let d of difficulties" [value]="d.value">
+                {{ d.label }}
+            </mat-list-option>
+        </mat-selection-list>
+
+        <h4>Status</h4>
+        <mat-selection-list disabled>
+            <mat-list-option>Solved</mat-list-option>
+            <mat-list-option>Unsolved</mat-list-option>
+        </mat-selection-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+        <div class="challenge-grid">
+
+            <mat-card class="challenge-card" *ngFor="let challenge of challenges?.items"
+                (click)="openChallenge(challenge.id)">
+
+                <mat-card-title>{{ challenge.title }}</mat-card-title>
+
+                <mat-card-content>
+                    <mat-chip-set multiple>
+                        <mat-chip highlighted color="primary">
+                            {{ categoryLabel(challenge.category) }}
+                        </mat-chip>
+
+                        <mat-chip highlighted color="accent">
+                            {{ difficultyLabel(challenge.difficulty) }}
+                        </mat-chip>
+
+                        <mat-chip>
+                            {{ challenge.points }} pts
+                        </mat-chip>
+                    </mat-chip-set>
+                </mat-card-content>
+
+            </mat-card>
+
+        </div>
+
+        <mat-paginator [length]="challenges?.totalCount ?? 0" [pageSize]="10" [pageIndex]="pageNumber - 1"
+            (page)="onPageChange($event)">
+        </mat-paginator>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

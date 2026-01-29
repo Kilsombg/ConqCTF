@@ -1,0 +1,78 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+@include mat.core();
+
+
+@function theme-text-color($theme) {
+  $foreground: map.get($theme, foreground);
+  @return map.get($foreground, text);
+}
+
+@function theme-base-color($theme) {
+  $foreground: map.get($theme, foreground);
+  @return map.get($foreground, base);
+}
+
+$primary: mat.define-palette(mat.$deep-purple-palette);
+$accent: mat.define-palette(mat.$green-palette);
+$warn: mat.define-palette(mat.$red-palette);
+
+
+$light-theme: mat.define-light-theme((color: (primary: $primary,
+        accent: $accent,
+        warn: $warn,
+      )));
+
+
+$dark-theme: mat.define-dark-theme((color: (primary: $primary,
+        accent: $accent,
+        warn: $warn,
+      )));
+
+
+
+.light-theme {
+  @include mat.all-component-themes($light-theme);
+
+  body,
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .mat-mdc-card-title,
+  .mat-mdc-card-subtitle {
+     color: theme-text-color($light-theme);
+  }
+}
+
+.dark-theme {
+  @include mat.all-component-themes($dark-theme);
+
+  body,
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .mat-mdc-card-title,
+  .mat-mdc-card-subtitle {
+    color: theme-text-color($dark-theme);
+  }
+}
+
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

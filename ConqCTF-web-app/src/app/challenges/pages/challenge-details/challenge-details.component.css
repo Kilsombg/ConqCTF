@@ -1,0 +1,42 @@
+.challenge-details-card {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 16px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}
+
+.description {
+  white-space: pre-line;
+  margin-bottom: 16px;
+}
+
+.flag-form {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.full-width {
+  flex: 1;
+}
+
+.success {
+  color: #4caf50;
+  margin-top: 8px;
+}
+
+.error {
+  color: #f44336;
+  margin-top: 8px;
+}
+
+h4 {
+    margin-bottom: 0px;
+}

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ChallengesService } from '../../services/challenges.service';
 import { ChallengeDto, PaginatedList } from '../../models/challenge.models';
+import { MatDialog } from '@angular/material/dialog';
+import { ChallengeDetailsComponent } from '../challenge-details/challenge-details.component';
+import { CHALLENGE_CATEGORIES, CHALLENGE_DIFFICULTIES, getCategoryLabel, getDifficultyLabel } from '../../constants/challenge.constants';
 
 @Component({
   selector: 'app-challenge-list',
@@ -12,7 +15,13 @@ export class ChallengeListComponent implements OnInit {
   challenges?: PaginatedList<ChallengeDto>;
   pageNumber = 1;
 
-  constructor(private challengesService: ChallengesService) {}
+  categories = CHALLENGE_CATEGORIES;
+  difficulties = CHALLENGE_DIFFICULTIES;
+
+  constructor(
+    private challengesService: ChallengesService,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.loadChallenges();
@@ -23,17 +32,23 @@ export class ChallengeListComponent implements OnInit {
       .subscribe(result => this.challenges = result);
   }
 
-  next(): void {
-    if (this.challenges?.hasNextPage) {
-      this.pageNumber++;
-      this.loadChallenges();
-    }
+  onPageChange(event: any): void {
+    this.pageNumber = event.pageIndex + 1;
+    this.loadChallenges();
   }
 
-  previous(): void {
-    if (this.challenges?.hasPreviousPage) {
-      this.pageNumber--;
-      this.loadChallenges();
-    }
+  categoryLabel(value: number): string {
+    return getCategoryLabel(value);
+  }
+
+  difficultyLabel(value: number): string {
+    return getDifficultyLabel(value);
+  }
+
+  openChallenge(id: number): void {
+    this.dialog.open(ChallengeDetailsComponent, {
+      width: '600px',
+      data: { challengeId: id }
+    });
   }
 }

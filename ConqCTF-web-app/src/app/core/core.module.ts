@@ -5,6 +5,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../shared/material.module';
 
 
 
@@ -21,7 +22,8 @@ import { CommonModule } from '@angular/common';
  ],
  imports: [
   CommonModule,
-  RouterModule
+  RouterModule,
+  MaterialModule
  ],
  exports: [
   NavbarComponent
