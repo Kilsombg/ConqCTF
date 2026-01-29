@@ -26,6 +26,10 @@
 
     <mat-sidenav-content>
 
+        <mat-slide-toggle *ngIf="isAdmin" [(ngModel)]="isEditMode">
+            Edit mode
+        </mat-slide-toggle>
+
         <div class="challenge-grid">
 
             <mat-card class="challenge-card" *ngFor="let challenge of challenges?.items"

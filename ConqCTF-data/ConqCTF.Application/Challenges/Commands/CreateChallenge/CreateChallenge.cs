@@ -17,6 +17,7 @@ namespace ConqCTF.Application.Challenges.Commands.CreateChallenge
         public int Points { get; init; }
         public string? Flag { get; init; }
         public IReadOnlyCollection<FileUpload>? Files { get; init; }
+        public IReadOnlyCollection<string>? Hints { get; init; }
     }
 
 
@@ -43,7 +44,7 @@ namespace ConqCTF.Application.Challenges.Commands.CreateChallenge
                 request.Points,
                 _flagHasher.Hash(request.Flag));
 
-            var id = await _challengeService.CreateAsync(challenge, request.Files, ct);
+            var id = await _challengeService.CreateAsync(challenge, request.Files, request.Hints, ct);
             return (Result.Success(), id);
         }
     }

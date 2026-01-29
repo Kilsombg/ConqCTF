@@ -27,4 +27,5 @@ export interface ChallengeDetailsDto {
   difficulty: number;
   points: number;
   files?: ChallengeFileDto[];
+  hints?: string[];
 }

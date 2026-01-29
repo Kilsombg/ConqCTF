@@ -1,0 +1,8 @@
+<mat-card *ngIf="challenge" class="create-challenge-card">
+    <mat-card-title>Edit Challenge</mat-card-title>
+
+    <app-challenge-form [initialData]="challenge" submitLabel="Update Challenge" (submitForm)="update($event)">
+    </app-challenge-form>
+</mat-card>
+
+<mat-spinner *ngIf="!challenge"></mat-spinner>

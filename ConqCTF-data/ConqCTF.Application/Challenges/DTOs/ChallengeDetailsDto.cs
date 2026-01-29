@@ -12,6 +12,7 @@ namespace ConqCTF.Application.Challenges.DTOs
         public int Points { get; init; }
 
         public IReadOnlyCollection<ChallengeFileDto>? Files { get; init; }
+        public IReadOnlyCollection<string>? Hints { get; init; }
     }
 
     public class ChallengeFileDto

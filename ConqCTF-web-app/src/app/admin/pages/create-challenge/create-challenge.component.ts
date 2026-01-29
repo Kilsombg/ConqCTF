@@ -8,45 +8,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-challenge.component.css']
 })
 export class CreateChallengeComponent {
-
-  title = '';
-  description = '';
-  category = 0;
-  difficulty = 0;
-  points = 0;
-  flag = '';
-
-  files: File[] = [];
-
+  
   error?: string;
   success?: string;
 
   constructor(
     private challengesService: ChallengesService,
     private router: Router
-  ) {}
+  ) { }
 
-  onFilesSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (!input.files) return;
-
-    this.files = Array.from(input.files);
-  }
-
-  submit(): void {
-    const formData = new FormData();
-
-    formData.append('Title', this.title);
-    formData.append('Description', this.description);
-    formData.append('Category', this.category.toString());
-    formData.append('Difficulty', this.difficulty.toString());
-    formData.append('Points', this.points.toString());
-    formData.append('Flag', this.flag);
-
-    this.files.forEach(file =>
-      formData.append('Files', file, file.name)
-    );
-
+  submit(formData: FormData): void {
     this.challengesService.createChallenge(formData)
       .subscribe({
         next: id => {

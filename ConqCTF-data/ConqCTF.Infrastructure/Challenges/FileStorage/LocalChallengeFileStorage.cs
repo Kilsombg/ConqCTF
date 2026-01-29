@@ -32,7 +32,7 @@ namespace ConqCTF.Infrastructure.Challenges.FileStorage
         public async Task<string> SaveAsync(int challengeId, FileUpload file, CancellationToken ct)
         {
             var dir = Path.Combine(_rootPath, challengeId.ToString());
-            if(!Directory.Exists(dir))
+            if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
             var path = Path.Combine(dir, file.FileName);
@@ -41,6 +41,24 @@ namespace ConqCTF.Infrastructure.Challenges.FileStorage
             await file.Content.CopyToAsync(stream, ct);
 
             return path;
+        }
+
+        public Task DeleteAsync(string path, CancellationToken ct)
+        {
+            if (File.Exists(path))
+                File.Delete(path);
+
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteChallengeDirectoryAsync(int challengeId, CancellationToken ct)
+        {
+            var dir = Path.Combine(_rootPath, challengeId.ToString());
+
+            if (Directory.Exists(dir))
+                Directory.Delete(dir, recursive: true);
+
+            return Task.CompletedTask;
         }
     }
 }

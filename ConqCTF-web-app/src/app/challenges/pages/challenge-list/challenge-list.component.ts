@@ -4,6 +4,8 @@ import { ChallengeDto, PaginatedList } from '../../models/challenge.models';
 import { MatDialog } from '@angular/material/dialog';
 import { ChallengeDetailsComponent } from '../challenge-details/challenge-details.component';
 import { CHALLENGE_CATEGORIES, CHALLENGE_DIFFICULTIES, getCategoryLabel, getDifficultyLabel } from '../../constants/challenge.constants';
+import { AuthStateService } from 'src/app/core/services/auth-state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-challenge-list',
@@ -15,13 +17,20 @@ export class ChallengeListComponent implements OnInit {
   challenges?: PaginatedList<ChallengeDto>;
   pageNumber = 1;
 
+  isEditMode = false;
+  isAdmin = false;
+
   categories = CHALLENGE_CATEGORIES;
   difficulties = CHALLENGE_DIFFICULTIES;
 
   constructor(
     private challengesService: ChallengesService,
-    private dialog: MatDialog
-  ) { }
+    private authStateService: AuthStateService,
+    private dialog: MatDialog,
+    private router: Router
+  ) {
+    this.isAdmin = this.authStateService.isAdmin();
+  }
 
   ngOnInit(): void {
     this.loadChallenges();
@@ -46,9 +55,24 @@ export class ChallengeListComponent implements OnInit {
   }
 
   openChallenge(id: number): void {
-    this.dialog.open(ChallengeDetailsComponent, {
-      width: '600px',
-      data: { challengeId: id }
-    });
+    if (this.isAdmin && this.isEditMode) {
+      this.router.navigate(['/admin/challenges', id, 'edit']);
+    } else {
+      const dialogRef = this.dialog.open(ChallengeDetailsComponent, {
+        width: '600px',
+        data: { challengeId: id }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result?.deleted) {
+          this.loadChallenges();
+        }
+      });
+    }
+  }
+
+
+  toggleMode(): void {
+    this.isEditMode = !this.isEditMode;
   }
 }

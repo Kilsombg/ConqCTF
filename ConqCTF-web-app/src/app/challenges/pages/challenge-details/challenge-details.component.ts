@@ -1,9 +1,11 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChallengesService } from '../../services/challenges.service';
 import { ChallengeDetailsDto } from '../../models/challenge.models';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CHALLENGE_CATEGORIES, CHALLENGE_DIFFICULTIES, getCategoryLabel, getDifficultyLabel } from '../../constants/challenge.constants';
+import { AuthStateService } from 'src/app/core/services/auth-state.service';
+import { ConfirmDialogComponent } from 'src/app/admin/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-challenge-details',
@@ -13,9 +15,12 @@ import { CHALLENGE_CATEGORIES, CHALLENGE_DIFFICULTIES, getCategoryLabel, getDiff
 export class ChallengeDetailsComponent implements OnInit {
 
   challenge?: ChallengeDetailsDto;
+  selectedHintIndex: number | null = null;
   flag = '';
   error?: string;
   success?: string;
+
+  isAdmin = false;
 
   categories = CHALLENGE_CATEGORIES;
   difficulties = CHALLENGE_DIFFICULTIES;
@@ -23,8 +28,14 @@ export class ChallengeDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private challengesService: ChallengesService,
+    private authStateService: AuthStateService,
+    private router: Router,
+    private dialog: MatDialog,
+    @Optional() private dialogRef: MatDialogRef<ChallengeDetailsComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data?: { challengeId: number }
-  ) { }
+  ) {
+    this.isAdmin = this.authStateService.isAdmin();
+  }
 
   ngOnInit(): void {
     let id: number | null = null;
@@ -43,6 +54,11 @@ export class ChallengeDetailsComponent implements OnInit {
     }
 
     this.challengesService.getChallenge(id).subscribe(challenge => this.challenge = challenge);
+  }
+
+  selectHint(index: number): void {
+    this.selectedHintIndex =
+      this.selectedHintIndex === index ? null : index;
   }
 
 
@@ -82,5 +98,36 @@ export class ChallengeDetailsComponent implements OnInit {
 
   difficultyLabel(value: number): string {
     return getDifficultyLabel(value);
+  }
+
+  edit(): void {
+    if (!this.challenge) return;
+
+    this.dialogRef.close();
+    this.router.navigate(['/admin/challenges', this.challenge?.id, 'edit']);
+  }
+
+  confirmDelete(): void {
+    const ref = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px'
+    });
+
+    ref.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.delete();
+      }
+    });
+  }
+
+  private delete(): void {
+    if (!this.challenge) return;
+
+    this.challengesService.deleteChallenge(this.challenge.id).subscribe({
+      next: () => {
+        this.dialogRef.close({deleted : true});
+      },
+      error: () => {
+      }
+    });
   }
 }

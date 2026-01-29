@@ -6,6 +6,18 @@
             {{ challenge.title }}
         </mat-card-title>
 
+        <div class="admin-actions" *ngIf="isAdmin">
+            <button mat-stroked-button color="primary" (click)="edit()">
+                <mat-icon>edit</mat-icon>
+                Edit
+            </button>
+
+            <button mat-stroked-button color="warn" (click)="confirmDelete()">
+                <mat-icon>delete</mat-icon>
+                Delete
+            </button>
+        </div>
+
         <button mat-icon-button mat-dialog-close class="close-btn" aria-label="Close dialog">
             <mat-icon>close</mat-icon>
         </button>
@@ -45,6 +57,23 @@
                         </button>
                     </mat-list-item>
                 </mat-list>
+            </div>
+
+            <div *ngIf="challenge.hints?.length">
+                <h4>Hints</h4>
+
+                <div class="hint-buttons">
+                    <button mat-stroked-button *ngFor="let hint of challenge.hints; let i = index"
+                        (click)="selectHint(i)" [color]="selectedHintIndex === i ? 'primary' : undefined">
+                        {{ i + 1 }}
+                    </button>
+                </div>
+
+                <mat-card *ngIf="selectedHintIndex !== null">
+                    <p>
+                        {{ challenge.hints?.[selectedHintIndex!] }}
+                    </p>
+                </mat-card>
             </div>
         </mat-card-content>
 

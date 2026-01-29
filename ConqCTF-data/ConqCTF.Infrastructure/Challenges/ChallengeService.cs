@@ -53,10 +53,16 @@ namespace ConqCTF.Infrastructure.Challenges
                     Category = c.Category,
                     Difficulty = c.Difficulty,
                     Points = c.Points,
+
                     Files = c.Files.Select(f => new ChallengeFileDto
                     {
                         FileName = f.FileName
-                    }).ToList()
+                    }).ToList(),
+
+                    Hints = c.Hints
+                        .OrderBy(h => h.Id) 
+                        .Select(h => h.Text)
+                        .ToList()
                 })
                 .FirstOrDefaultAsync(ct)
                 ?? throw new NotFoundException(nameof(Challenge), challengeId.ToString());
@@ -85,20 +91,61 @@ namespace ConqCTF.Infrastructure.Challenges
             await _context.SaveChangesAsync(ct);
         }
 
-        public async Task<int> CreateAsync(Challenge challenge, IEnumerable<FileUpload> files, CancellationToken ct)
+        public async Task<int> CreateAsync(Challenge challenge, IEnumerable<FileUpload> files, IReadOnlyCollection<string> hints, CancellationToken ct)
         {
             _context.Challenges.Add(challenge);
             await _context.SaveChangesAsync(ct);
 
-            foreach (var file in files)
+            if(hints is not null)
             {
-                var path = await _fileStorage.SaveAsync(challenge.Id, file, ct);
-                challenge.AddFile(file.FileName, path);
+                foreach (var hint in hints)
+                {
+                    challenge.AddHint(hint);
+                }
+            }
+
+            if(files is not null)
+            {
+                foreach (var file in files)
+                {
+                    var path = await _fileStorage.SaveAsync(challenge.Id, file, ct);
+                    challenge.AddFile(file.FileName, path);
+                }
             }
 
             await _context.SaveChangesAsync(ct);
             return challenge.Id;
         }
 
+
+        public async Task<Challenge?> GetByIdAsync(int id, CancellationToken ct)
+        {
+            return await _context.Challenges
+                .Include(c => c.Hints)
+                .Include(c => c.Files)
+                .FirstOrDefaultAsync(c => c.Id == id, ct);
+        }
+
+        public async Task AddFilesAsync(Challenge challenge, IEnumerable<FileUpload> files, CancellationToken ct)
+        {
+            foreach (var file in files)
+            {
+                var path = await _fileStorage.SaveAsync(challenge.Id, file, ct);
+                challenge.AddFile(file.FileName, path);
+            }
+        }
+
+        public Task SaveAsync(CancellationToken ct)
+        {
+            return _context.SaveChangesAsync(ct);
+        }
+
+        public async Task DeleteAsync(Challenge challenge, CancellationToken ct)
+        {
+            await _fileStorage.DeleteChallengeDirectoryAsync(challenge.Id, ct);
+
+            _context.Challenges.Remove(challenge);
+            await _context.SaveChangesAsync(ct);
+        }
     }
 }

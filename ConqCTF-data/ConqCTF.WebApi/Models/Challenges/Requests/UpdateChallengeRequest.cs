@@ -2,7 +2,7 @@
 
 namespace ConqCTF.WebApi.Models.Challenges.Requests
 {
-    public class CreateChallengeRequest
+    public class UpdateChallengeRequest
     {
         public string? Title { get; init; }
 

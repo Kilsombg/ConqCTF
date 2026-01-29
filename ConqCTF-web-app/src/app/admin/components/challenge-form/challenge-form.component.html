@@ -1,0 +1,91 @@
+<form (ngSubmit)="submit()" class="form">
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Title</mat-label>
+        <input matInput [(ngModel)]="title" name="title" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput rows="4" [(ngModel)]="description" name="description">
+      </textarea>
+    </mat-form-field>
+
+    <div class="row">
+        <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select [(ngModel)]="category" name="category">
+                <mat-option [value]="1">Cryptography</mat-option>
+                <mat-option [value]="2">Web</mat-option>
+                <mat-option [value]="3">Reverse Engineering</mat-option>
+                <mat-option [value]="4">Forensics</mat-option>
+                <mat-option [value]="5">General Skills</mat-option>
+                <mat-option [value]="6">Binary Exploitation</mat-option>
+                <mat-option [value]="7">Misc</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Difficulty</mat-label>
+            <mat-select [(ngModel)]="difficulty" name="difficulty">
+                <mat-option [value]="1">Easy</mat-option>
+                <mat-option [value]="2">Medium</mat-option>
+                <mat-option [value]="3">Hard</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="row">
+        <mat-form-field appearance="outline">
+            <mat-label>Points</mat-label>
+            <input matInput type="number" min="1" step="1" required [(ngModel)]="points" name="points"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Flag</mat-label>
+            <input matInput [(ngModel)]="flag" name="flag" required />
+        </mat-form-field>
+    </div>
+
+    <div class="section">
+        <h4>Files</h4>
+        <input type="file" multiple (change)="onFilesSelected($event)" />
+    </div>
+
+    <div class="section">
+        <h4>Hints</h4>
+
+        <div class="hint-input">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>New hint</mat-label>
+                <input matInput [(ngModel)]="newHint" name="newHint" />
+            </mat-form-field>
+
+            <button mat-icon-button color="primary" type="button" (click)="addHint()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+
+        <mat-list *ngIf="hints.length">
+            <mat-list-item *ngFor="let hint of hints; let i = index">
+                <span matListItemTitle>{{ hint }}</span>
+                <button mat-icon-button color="warn" (click)="removeHint(i)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-list-item>
+        </mat-list>
+    </div>
+
+    <button mat-raised-button color="primary" type="submit">
+        {{ submitLabel }}
+    </button>
+
+    <mat-hint class="success" *ngIf="success">
+        {{ success }}
+    </mat-hint>
+
+    <mat-hint class="error" *ngIf="error">
+        {{ error }}
+    </mat-hint>
+
+</form>

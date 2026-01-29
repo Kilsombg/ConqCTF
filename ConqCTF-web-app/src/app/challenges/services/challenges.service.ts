@@ -15,7 +15,7 @@ export class ChallengesService {
 
   private readonly apiUrl = `${environment.apiUrl}/api/challenges`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getChallenges(pageNumber = 1, pageSize = 10): Observable<PaginatedList<ChallengeDto>> {
     return this.http.get<PaginatedList<ChallengeDto>>(
@@ -39,6 +39,14 @@ export class ChallengesService {
   }
 
   createChallenge(formData: FormData): Observable<number> {
-  return this.http.post<number>(this.apiUrl, formData);
+    return this.http.post<number>(this.apiUrl, formData);
+  }
+
+  updateChallenge(id: number, formData: FormData): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, formData);
+  }
+
+  deleteChallenge(id: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/${id}`);
 }
 }

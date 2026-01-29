@@ -40,3 +40,16 @@
 h4 {
     margin-bottom: 0px;
 }
+
+.hint-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}

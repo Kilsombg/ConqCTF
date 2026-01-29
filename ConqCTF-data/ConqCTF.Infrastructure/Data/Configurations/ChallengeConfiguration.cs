@@ -37,6 +37,11 @@ namespace ConqCTF.Infrastructure.Data.Configurations
                 .WithOne()
                 .HasForeignKey(f => f.ChallengeId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(c => c.Hints)
+                .WithOne()
+                .HasForeignKey(h => h.ChallengeId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

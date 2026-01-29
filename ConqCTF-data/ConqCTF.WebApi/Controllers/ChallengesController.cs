@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using ConqCTF.Application.Challenges.DTOs;
 using ConqCTF.WebApi.Models.Challenges.Requests;
 using ConqCTF.Application.Challenges.Queries.DownloadChallengeFile;
+using ConqCTF.Application.Challenges.Commands.UpdateChallenge;
+using ConqCTF.Application.Challenges.Commands.DeleteChallenge;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -57,7 +59,8 @@ public class ChallengesController : ControllerBase
             Flag = request.Flag,
             Files = request.Files?
                 .Select(MapToFileUpload)
-                .ToList()
+                .ToList(),
+            Hints = request.Hints
         };
 
         var (result, challengeId) = await _mediator.Send(command, ct);
@@ -67,6 +70,32 @@ public class ChallengesController : ControllerBase
             : BadRequest(result.Errors);
     }
 
+
+    [HttpPut("{id:int}")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> Update(int id, [FromForm] UpdateChallengeRequest request, CancellationToken ct)
+    {
+        var command = new UpdateChallengeCommand
+        {
+            ChallengeId = id,
+            Title = request.Title,
+            Description = request.Description,
+            Category = request.Category,
+            Difficulty = request.Difficulty,
+            Points = request.Points,
+            Flag = request.Flag,
+            Files = request.Files?
+                .Select(MapToFileUpload)
+                .ToList(),
+            Hints = request.Hints
+        };
+
+        var result = await _mediator.Send(command, ct);
+
+        return result.Succeeded
+            ? NoContent()
+            : BadRequest(result.Errors);
+    }
 
     [HttpPost("{id:int}/submit")]
     public async Task<IActionResult> SubmitFlag(int id, [FromBody] SubmitFlagRequest request, CancellationToken ct)
@@ -93,6 +122,16 @@ public class ChallengesController : ControllerBase
         }, ct);
 
         return File(file.Stream, "application/octet-stream", file.FileName);
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id, CancellationToken ct)
+    {
+        var result = await _mediator.Send(new DeleteChallengeCommand { ChallengeId = id }, ct);
+
+        return result.Succeeded
+            ? NoContent()
+            : BadRequest(result.Errors);
     }
 
     private static FileUpload MapToFileUpload(IFormFile file)
