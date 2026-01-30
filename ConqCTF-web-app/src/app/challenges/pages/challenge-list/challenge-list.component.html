@@ -3,24 +3,30 @@
     <mat-sidenav mode="side" opened class="sidenav">
         <h3>Filters</h3>
 
+        <button mat-stroked-button color="warn" class="clear-filters-btn" (click)="clearFilters()"
+            [disabled]="!hasActiveFilters()">
+            Clear filters
+        </button>
+
         <h4>Category</h4>
-        <mat-selection-list>
-            <mat-list-option *ngFor="let c of categories" [value]="c.value">
+        <mat-selection-list #categoryList [multiple]="false" (selectionChange)="onCategoryChange($event)">
+            <mat-list-option *ngFor="let c of categories" [value]="c.value" [selected]="c.value === selectedCategory">
                 {{ c.label }}
             </mat-list-option>
         </mat-selection-list>
 
         <h4>Difficulty</h4>
-        <mat-selection-list>
-            <mat-list-option *ngFor="let d of difficulties" [value]="d.value">
+        <mat-selection-list #difficultyList [multiple]="false" (selectionChange)="onDifficultyChange($event)">
+            <mat-list-option *ngFor="let d of difficulties" [value]="d.value"
+                [selected]="d.value === selectedDifficulty">
                 {{ d.label }}
             </mat-list-option>
         </mat-selection-list>
 
         <h4>Status</h4>
-        <mat-selection-list disabled>
-            <mat-list-option>Solved</mat-list-option>
-            <mat-list-option>Unsolved</mat-list-option>
+        <mat-selection-list #statusList [multiple]="false" (selectionChange)="onStatusChange($event)">
+            <mat-list-option value="solved">Solved</mat-list-option>
+            <mat-list-option value="unsolved">Unsolved</mat-list-option>
         </mat-selection-list>
     </mat-sidenav>
 
@@ -33,6 +39,7 @@
         <div class="challenge-grid">
 
             <mat-card class="challenge-card" *ngFor="let challenge of challenges?.items"
+                [class.solved]="challenge.isSolved" [class.admin-edit]="isAdmin && isEditMode" 
                 (click)="openChallenge(challenge.id)">
 
                 <mat-card-title>{{ challenge.title }}</mat-card-title>
@@ -57,7 +64,7 @@
 
         </div>
 
-        <mat-paginator [length]="challenges?.totalCount ?? 0" [pageSize]="10" [pageIndex]="pageNumber - 1"
+        <mat-paginator [length]="challenges?.totalCount ?? 0" [pageSize]="pageSize" [pageIndex]="pageNumber - 1"
             (page)="onPageChange($event)">
         </mat-paginator>
 

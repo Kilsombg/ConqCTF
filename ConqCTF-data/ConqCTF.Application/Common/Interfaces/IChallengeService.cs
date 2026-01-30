@@ -6,7 +6,7 @@ namespace ConqCTF.Application.Common.Interfaces
 {
     public interface IChallengeService
     {
-        Task<PaginatedList<ChallengeDto>> GetPagedAsync(int pageNumber, int pageSize, CancellationToken ct);
+        Task<PaginatedList<ChallengeDto>> GetPagedAsync(int pageNumber, int pageSize, int? category, int? difficulty, string? status, CancellationToken ct);
 
         Task<ChallengeDetailsDto> GetDetailsAsync(int challengeId, CancellationToken ct);
 

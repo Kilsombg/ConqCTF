@@ -13,5 +13,7 @@ namespace ConqCTF.Application.Challenges.DTOs
         public ChallengeDifficulty Difficulty { get; init; }
 
         public int Points { get; init; }
+
+        public bool IsSolved { get; init; }
     }
 }

@@ -13,6 +13,7 @@ export interface ChallengeDto {
   category: number;
   difficulty: number;
   points: number;
+  isSolved: boolean;
 }
 
 export interface ChallengeFileDto {

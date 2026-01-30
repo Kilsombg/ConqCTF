@@ -10,6 +10,9 @@ namespace ConqCTF.Application.Challenges.Queries.GetChallenges
     {
         public int PageNumber { get; init; }
         public int PageSize { get; init; }
+        public int? Category { get; init; }
+        public int? Difficulty { get; init; }
+        public string? Status { get; init; }
     }
 
     public class GetChallengesQueryHandler : IRequestHandler<GetChallengesQuery, PaginatedList<ChallengeDto>>
@@ -23,7 +26,7 @@ namespace ConqCTF.Application.Challenges.Queries.GetChallenges
 
         public Task<PaginatedList<ChallengeDto>> Handle(GetChallengesQuery request, CancellationToken ct)
         {
-            return _service.GetPagedAsync(request.PageNumber, request.PageSize, ct);
+            return _service.GetPagedAsync(request.PageNumber, request.PageSize, request.Category, request.Difficulty, request.Status, ct);
         }
     }
 

@@ -12,28 +12,68 @@ namespace ConqCTF.Infrastructure.Challenges
     {
         private readonly ApplicationDbContext _context;
         private readonly IChallengeFileStorage _fileStorage;
+        private readonly IUser _user;
 
         public ChallengeService(
             ApplicationDbContext context,
-            IChallengeFileStorage fileStorage)
+            IChallengeFileStorage fileStorage,
+            IUser user)
         {
             _context = context;
             _fileStorage = fileStorage;
+            _user = user;
         }
 
-        public async Task<PaginatedList<ChallengeDto>> GetPagedAsync(int pageNumber, int pageSize, CancellationToken ct)
+        public async Task<PaginatedList<ChallengeDto>> GetPagedAsync(int pageNumber, int pageSize, int? category, int? difficulty, string? status, CancellationToken ct)
         {
+            var userId = _user.Id;
+
+            IQueryable<Challenge> query = _context.Challenges.AsNoTracking();
+
+            if (category.HasValue)
+            {
+                query = query.Where(c => (int)c.Category == category.Value);
+            }
+
+            if (difficulty.HasValue)
+            {
+                query = query.Where(c => (int)c.Difficulty == difficulty.Value);
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(status) && userId != null)
+            {
+                if (status == "solved")
+                {
+                    query = query.Where(c => 
+                    _context.ChallengeSolves.Any(s => 
+                    s.ChallengeId == c.Id && 
+                    s.UserId == userId));
+                }
+                else if (status == "unsolved")
+                {
+                    query = query.Where(c => 
+                    !_context.ChallengeSolves.Any(s =>
+                    s.ChallengeId == c.Id &&
+                    s.UserId == userId));
+                }
+            }
+
             return await PaginatedList<ChallengeDto>.CreateAsync(
-                _context.Challenges
-                    .AsNoTracking()
-                    .OrderBy(c => c.Title)
+                query
+                    .OrderBy(c => c.Id)
+                    .ThenBy(c => c.Difficulty)
                     .Select(c => new ChallengeDto
                     {
                         Id = c.Id,
                         Title = c.Title,
                         Category = c.Category,
                         Difficulty = c.Difficulty,
-                        Points = c.Points
+                        Points = c.Points,
+                        IsSolved = userId != null &&
+                                    _context.ChallengeSolves.Any(s =>
+                                        s.ChallengeId == c.Id &&
+                                        s.UserId == userId)
                     }),
                 pageNumber,
                 pageSize,

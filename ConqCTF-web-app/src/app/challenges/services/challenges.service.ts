@@ -17,10 +17,29 @@ export class ChallengesService {
 
   constructor(private http: HttpClient) { }
 
-  getChallenges(pageNumber = 1, pageSize = 10): Observable<PaginatedList<ChallengeDto>> {
-    return this.http.get<PaginatedList<ChallengeDto>>(
-      `${this.apiUrl}?pageNumber=${pageNumber}&pageSize=${pageSize}`
-    );
+  getChallenges(pageNumber = 1, pageSize = 10, filters?: {
+    category?: number;
+    difficulty?: number;
+    status?: 'solved' | 'unsolved';
+  }): Observable<PaginatedList<ChallengeDto>> {
+    let params: any = {
+      pageNumber: pageNumber,
+      pageSize: pageSize
+    };
+
+    if (filters?.category) {
+      params.category = filters.category;
+    }
+
+    if (filters?.difficulty) {
+      params.difficulty = filters.difficulty;
+    }
+
+    if (filters?.status) {
+      params.status = filters.status;
+    }
+
+    return this.http.get<PaginatedList<ChallengeDto>>(this.apiUrl, { params });
   }
 
   getChallenge(id: number): Observable<ChallengeDetailsDto> {
@@ -47,6 +66,6 @@ export class ChallengesService {
   }
 
   deleteChallenge(id: number): Observable<void> {
-  return this.http.delete<void>(`${this.apiUrl}/${id}`);
-}
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

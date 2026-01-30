@@ -22,12 +22,21 @@ public class ChallengesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<PaginatedList<ChallengeDto>>> GetChallenges([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken ct = default)
+    public async Task<ActionResult<PaginatedList<ChallengeDto>>> GetChallenges(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] int? category = null,
+        [FromQuery] int? difficulty = null,
+        [FromQuery] string? status = null,
+        CancellationToken ct = default)
     {
         var result = await _mediator.Send(new GetChallengesQuery
         {
             PageNumber = pageNumber,
-            PageSize = pageSize
+            PageSize = pageSize,
+            Category = category,
+            Difficulty = difficulty,
+            Status = status
         }, ct);
 
         return Ok(result);
