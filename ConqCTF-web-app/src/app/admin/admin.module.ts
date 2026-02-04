@@ -8,6 +8,7 @@ import { MaterialModule } from '../shared/material.module';
 import { ChallengeFormComponent } from './components/challenge-form/challenge-form.component';
 import { EditChallengeComponent } from './pages/edit-challenge/edit-challenge.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
   ],
   imports: [
     CommonModule,
+    SharedModule,
     FormsModule,
     AdminRoutingModule,
     MaterialModule

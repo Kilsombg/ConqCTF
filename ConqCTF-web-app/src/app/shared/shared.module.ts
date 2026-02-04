@@ -1,12 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { LoadingChallengeComponent } from './components/loading-challenge/loading-challenge.component';
+import { MaterialModule } from './material.module';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+      LoadingChallengeComponent
+    ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule
+  ],
+  exports: [
+    LoadingChallengeComponent
   ]
 })
 export class SharedModule { }
