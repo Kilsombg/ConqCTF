@@ -40,12 +40,6 @@ mat-chip-set {
   margin-bottom: 16px;
 }
 
-.challenge-card.solved {
-  opacity: 0.7;
-  filter: grayscale(70%);
-  background-color: #EEE;
-}
-
 .challenge-card.solved:hover {
   transform: none;
   box-shadow: none;

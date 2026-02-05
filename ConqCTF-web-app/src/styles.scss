@@ -45,7 +45,13 @@ $dark-theme: mat.define-dark-theme((color: (primary: $primary,
   h6,
   .mat-mdc-card-title,
   .mat-mdc-card-subtitle {
-     color: theme-text-color($light-theme);
+    color: theme-text-color($light-theme);
+  }
+
+  .challenge-card.solved {
+    opacity: 0.7;
+    filter: grayscale(70%);
+    background-color: #EEE;
   }
 }
 
@@ -63,6 +69,12 @@ $dark-theme: mat.define-dark-theme((color: (primary: $primary,
   .mat-mdc-card-title,
   .mat-mdc-card-subtitle {
     color: theme-text-color($dark-theme);
+  }
+
+  .challenge-card.solved {
+    opacity: 0.85;
+    filter: grayscale(40%);
+     background-color: rgba(255, 255, 255, 0.04);
   }
 }
 

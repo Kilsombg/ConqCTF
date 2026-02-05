@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { LoginRequest, LoginResponse, RefreshTokenResponce } from '../../auth/auth.models';
 import { TokenService } from './token.service';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 import { AuthStateService } from './auth-state.service';
 
 @Injectable({

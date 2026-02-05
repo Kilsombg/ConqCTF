@@ -6,7 +6,7 @@ import {
   ChallengeDto,
   ChallengeDetailsDto
 } from '../models/challenge.models';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
