@@ -32,6 +32,50 @@
 
     <mat-sidenav-content>
 
+        <mat-card class="progress-card">
+
+            <div class="progress-header" (click)="toggleProgress()">
+                <div class="title">
+                    <mat-icon>
+                        {{ progressOpen ? 'expand_more' : 'chevron_right' }}
+                    </mat-icon>
+                    <span>Progress Overview</span>
+                </div>
+
+                <div class="summary">
+                    {{ solvedCount }} / {{ totalCount }} solved
+                </div>
+            </div>
+
+            <div class="progress-body" [@expand]="progressOpen ? 'open' : 'closed'">
+                <div class="progress-section">
+                    <span>Overall progress</span>
+                    <mat-progress-bar mode="determinate" [value]="overallProgress">
+                    </mat-progress-bar>
+                    <small>{{ overallProgress | number:'1.0-0' }}%</small>
+                </div>
+
+                <div class="progress-section">
+                    <span>Easy</span>
+                    <mat-progress-bar color="primary" mode="determinate" [value]="easyProgress">
+                    </mat-progress-bar>
+                </div>
+
+                <div class="progress-section">
+                    <span>Medium</span>
+                    <mat-progress-bar color="accent" mode="determinate" [value]="mediumProgress">
+                    </mat-progress-bar>
+                </div>
+
+                <div class="progress-section">
+                    <span>Hard</span>
+                    <mat-progress-bar color="warn" mode="determinate" [value]="hardProgress">
+                    </mat-progress-bar>
+                </div>
+            </div>
+
+        </mat-card>
+
         <mat-slide-toggle *ngIf="isAdmin" [(ngModel)]="isEditMode">
             Edit mode
         </mat-slide-toggle>
@@ -39,7 +83,7 @@
         <div class="challenge-grid">
 
             <mat-card class="challenge-card" *ngFor="let challenge of challenges?.items"
-                [class.solved]="challenge.isSolved" [class.admin-edit]="isAdmin && isEditMode" 
+                [class.solved]="challenge.isSolved" [class.admin-edit]="isAdmin && isEditMode"
                 (click)="openChallenge(challenge.id)">
 
                 <mat-card-title>{{ challenge.title }}</mat-card-title>

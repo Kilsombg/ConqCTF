@@ -8,11 +8,19 @@ import { AuthStateService } from 'src/app/core/services/auth-state.service';
 import { Router } from '@angular/router';
 import { MatSelectionList } from '@angular/material/list';
 import { ChallengeEventsService } from '../../services/challenge-events.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-challenge-list',
   templateUrl: './challenge-list.component.html',
-  styleUrls: ['./challenge-list.component.css']
+  styleUrls: ['./challenge-list.component.css'],
+    animations: [
+    trigger('expand', [
+      state('closed', style({ height: '0', opacity: 0 })),
+      state('open', style({ height: '*', opacity: 1 })),
+      transition('closed <=> open', animate('200ms ease'))
+    ])
+  ]
 })
 export class ChallengeListComponent implements OnInit {
 
@@ -26,6 +34,8 @@ export class ChallengeListComponent implements OnInit {
 
   isEditMode = false;
   isAdmin = false;
+
+  progressOpen = false;
 
   categories = CHALLENGE_CATEGORIES;
   difficulties = CHALLENGE_DIFFICULTIES;
@@ -155,5 +165,41 @@ export class ChallengeListComponent implements OnInit {
       this.selectedDifficulty ||
       this.selectedStatus
     );
+  }
+
+  get totalCount(): number {
+    return this.challenges?.items.length ?? 0;
+  }
+
+  get solvedCount(): number {
+    return this.challenges?.items.filter(c => c.isSolved).length ?? 0;
+  }
+
+  get overallProgress(): number {
+    if (!this.totalCount) return 0;
+    return (this.solvedCount / this.totalCount) * 100;
+  }
+
+  get easyProgress(): number {
+    return this.calcDifficultyProgress(1);
+  }
+
+  get mediumProgress(): number {
+    return this.calcDifficultyProgress(2);
+  }
+
+  get hardProgress(): number {
+    return this.calcDifficultyProgress(3);
+  }
+
+  toggleProgress(): void {
+    this.progressOpen = !this.progressOpen;
+  }
+
+  private calcDifficultyProgress(difficulty: number): number {
+    const all = this.challenges?.items.filter(c => c.difficulty === difficulty) ?? [];
+    if (!all.length) return 0;
+    const solved = all.filter(c => c.isSolved).length;
+    return (solved / all.length) * 100;
   }
 }
