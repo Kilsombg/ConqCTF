@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChallengesService } from 'src/app/challenges/services/challenges.service';
+import { FeedbackService } from 'src/app/core/services/feedback.service';
 
 @Component({
   selector: 'app-edit-challenge',
@@ -13,6 +14,7 @@ export class EditChallengeComponent {
   constructor(
     private route: ActivatedRoute,
     private challengesService: ChallengesService,
+    private feedback: FeedbackService,
     private router: Router
   ) { }
 
@@ -29,6 +31,8 @@ export class EditChallengeComponent {
 
     this.challengesService.updateChallenge(id, formData).subscribe(() => {
       this.router.navigate(['/challenges', id]);
+
+      this.feedback.success("Challenge is updated succesfully!");
     });
   }
 }

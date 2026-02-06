@@ -88,3 +88,26 @@ body {
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.mat-mdc-snack-bar-container.success-snackbar {
+  --mdc-snackbar-container-color: #2e7d32;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-button-color: #ffffff;
+}
+
+.mat-mdc-snack-bar-container.error-snackbar {
+  --mdc-snackbar-container-color: #c62828;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-button-color: #ffffff;
+}
+
+.mat-mdc-snack-bar-container.info-snackbar {
+  --mdc-snackbar-container-color: #1565c0;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-button-color: #ffffff;
+}
+
+.mat-mdc-snack-bar-container {
+  border-radius: 8px;
+  font-weight: 500;
+}

@@ -7,6 +7,7 @@ import { CHALLENGE_CATEGORIES, CHALLENGE_DIFFICULTIES, getCategoryLabel, getDiff
 import { AuthStateService } from 'src/app/core/services/auth-state.service';
 import { Router } from '@angular/router';
 import { MatSelectionList } from '@angular/material/list';
+import { ChallengeEventsService } from '../../services/challenge-events.service';
 
 @Component({
   selector: 'app-challenge-list',
@@ -36,6 +37,7 @@ export class ChallengeListComponent implements OnInit {
   constructor(
     private challengesService: ChallengesService,
     private authStateService: AuthStateService,
+    private challengeEvents: ChallengeEventsService,
     private dialog: MatDialog,
     private router: Router
   ) {
@@ -44,6 +46,14 @@ export class ChallengeListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadChallenges();
+
+    this.challengeEvents.challengeSolved$
+      .subscribe(challengeId => {
+        const challenge = this.challenges?.items
+          .find(c => c.id == challengeId);
+
+        if (challenge) challenge.isSolved = true;
+      })
   }
 
   loadChallenges(): void {
