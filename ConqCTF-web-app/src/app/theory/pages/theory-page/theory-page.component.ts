@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-theory-page',
@@ -7,4 +7,17 @@ import { Component } from '@angular/core';
 })
 export class TheoryPageComponent {
 
+  showScrollTop = false;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.showScrollTop = window.scrollY > 300;
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
 }

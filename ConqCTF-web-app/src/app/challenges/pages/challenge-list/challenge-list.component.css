@@ -53,6 +53,7 @@ mat-chip-set {
 
 .progress-card {
   margin: 16px;
+  margin-top: 80px;
   max-width: 900px;
   padding: 12px 16px;
 }
