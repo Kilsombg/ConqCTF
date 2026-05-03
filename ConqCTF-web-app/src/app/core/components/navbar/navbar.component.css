@@ -10,6 +10,12 @@
   cursor: pointer;
 }
 
+.theory-nav {
+  font-size: 15px;
+  font-weight: 400;
+  margin-left: 6px;
+}
+
 .spacer {
   flex: 1 1 auto;
 }

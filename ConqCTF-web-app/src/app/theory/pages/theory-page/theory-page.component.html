@@ -1,0 +1,853 @@
+<div class="theory-layout">
+
+    <!-- TABLE OF CONTENTS -->
+    <aside class="toc">
+        <div class="toc-container">
+
+            <h4 class="toc-title">Contents</h4>
+
+            <nav>
+                <a [routerLink]="[]" fragment="introduction">Introduction</a>
+                <a [routerLink]="[]" fragment="platform">How to Use the Platform</a>
+                <a [routerLink]="[]" fragment="workflow">Solving Workflow</a>
+                <a [routerLink]="[]" fragment="techniques">Beginner Techniques</a>
+                <a [routerLink]="[]" fragment="example">Example Challenge</a>
+                <a [routerLink]="[]" fragment="linux">Linux & Tools</a>
+                <a [routerLink]="[]" fragment="mistakes">Common Mistakes</a>
+            </nav>
+
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="theory-content">
+
+        <mat-card class="theory-container">
+
+            <h1 class="title">Learn</h1>
+
+            <p class="subtitle">
+                Understand how to approach and solve CTF challenges effectively.
+            </p>
+
+            <mat-accordion multi>
+
+                <!-- INTRO -->
+                <mat-expansion-panel expanded id="introduction">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Introduction
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <mat-card class="section-card">
+
+                        <p>
+                            This platform is designed to help you learn cybersecurity through practical challenges known
+                            as Capture The Flag (CTF).
+                        </p>
+
+                        <p>
+                            Each challenge presents a task where your goal is to discover a hidden value called a
+                            <strong>flag</strong>.
+                            A flag is a specific string (that include: <code>ConqCTF&#123;...&#125;</code>) that proves
+                            you have successfully solved the challenge.
+                        </p>
+
+                        <p>
+                            Challenges are organized into different categories and difficulty levels, allowing you to
+                            start with easier problems and gradually improve your skills.
+                        </p>
+
+                        <h4>Learning Approach</h4>
+
+                        <p>
+                            This platform is designed for learning. It is completely normal to get stuck on a challenge.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Take your time to understand the problem</li>
+                            <li>2. Try different approaches</li>
+                            <li>3. Use hints if needed</li>
+                            <li>4. Focus on understanding the solution, not just finding the answer</li>
+                        </ul>
+
+                        <p>
+                            The goal is not only to solve challenges, but to develop a way of thinking that helps you
+                            approach security problems effectively.
+                        </p>
+
+                    </mat-card>
+
+                </mat-expansion-panel>
+
+                <!-- PLATFORM -->
+                <mat-expansion-panel expanded id="platform">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            How to Use the Platform
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <mat-card class="section-card">
+
+                        <p>
+                            The platform is designed to provide a simple and consistent workflow for solving challenges.
+                            Understanding how it works will help you focus on solving problems instead of navigating the
+                            interface.
+                        </p>
+
+                        <h4>Opening a Challenge</h4>
+
+                        <p>
+                            Go to the <strong>Challenges</strong> page and select a challenge. When you click on a
+                            challenge, a dialog window will open with all the relevant information.
+                        </p>
+
+                        <h4>Reading the Description</h4>
+
+                        <p>
+                            The description is your starting point. It often contains important clues about what you
+                            need to do.
+                        </p>
+
+                        <p>
+                            Read it carefully and think about what kind of problem it represents (for example: decoding,
+                            file analysis, or web interaction).
+                        </p>
+
+                        <h4>Working with Files</h4>
+
+                        <p>
+                            Some challenges include files that you can download. These files are often essential to
+                            solving the challenge.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Click the download button next to a file</li>
+                            <li>2. Save it locally</li>
+                            <li>3. Analyze it using tools or manual inspection</li>
+                        </ul>
+
+                        <p>
+                            Files may contain hidden information such as metadata, encoded data, or embedded content.
+                        </p>
+
+                        <h4>Using Hints</h4>
+
+                        <p>
+                            If hints are available, they are displayed as numbered buttons.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Click a number to reveal a hint</li>
+                            <li>2. Click the same number again to hide it</li>
+                            <li>3. Only one hint is visible at a time</li>
+                        </ul>
+
+                        <p>
+                            There is no penalty for using hints, so it is recommended to use them if you are stuck.
+                        </p>
+
+                        <h4>Submitting a Flag</h4>
+
+                        <p>
+                            Once you believe you have found the correct flag, enter it into the input field at the
+                            bottom of the challenge.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>Ensure the format is correct (for example: <code>ConqCTF&#123;...&#125;</code>)</li>
+                            <li>Make sure there are no extra spaces</li>
+                            <li>The value must match exactly</li>
+                        </ul>
+
+                        <h4>Understanding Feedback</h4>
+
+                        <p>
+                            After submitting a flag, the platform will respond immediately. Use this feedback to guide
+                            your next steps. Avoid guessing repeatedly without understanding
+                            the problem.
+                        </p>
+
+
+                        <h4>After Solving a Challenge</h4>
+
+                        <p>
+                            When a challenge is solved:
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. It will be marked as solved in the interface</li>
+                            <li>2. You can move on to other challenges</li>
+                            <li>3. A challenge can be solved only once</li>
+                        </ul>
+
+                        <p>
+                            Take time to understand how you solved the challenge. This is where the real learning
+                            happens.
+                        </p>
+
+                    </mat-card>
+
+                </mat-expansion-panel>
+
+                <!-- WORKFLOW -->
+                <mat-expansion-panel expanded id="workflow">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Solving Workflow</mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <mat-card class="section-card">
+
+                        <p>
+                            Solving a CTF challenge is not about guessing the answer, but about following a structured
+                            way of thinking.
+                            This workflow will help you approach challenges step by step and avoid common mistakes.
+                        </p>
+
+                        <h4>Step 1: Understand the Problem</h4>
+
+                        <p>
+                            Start by carefully reading the challenge description.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Identify what is given to you</li>
+                            <li>2. Look for keywords or unusual details</li>
+                            <li>3. Determine what the challenge is asking for</li>
+                        </ul>
+
+
+                        <h4>Step 2: Explore Everything</h4>
+
+                        <p>
+                            Do not assume anything is irrelevant. In CTF challenges, every detail may be important.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Read the description again</li>
+                            <li>2. Check file names carefully</li>
+                            <li>3. Download all provided files</li>
+                            <li>4. Look for hidden or unusual data</li>
+                        </ul>
+
+                        <p>
+                            Small details often lead to the solution.
+                        </p>
+
+                        <h4>Step 3: Start with Simple Techniques</h4>
+
+                        <p>
+                            Before trying complex tools, begin with basic checks.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Open files normally</li>
+                            <li>2. Look for readable text</li>
+                            <li>3. Search for patterns (encoded strings, unusual characters)</li>
+                        </ul>
+
+                        <p>
+                            Many beginner challenges are designed to be solved with simple observations.
+                        </p>
+
+                        <h4>Step 4: Form a Hypothesis</h4>
+
+                        <p>
+                            Based on what you observe, make an assumption about what might be happening.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Is the data encoded?</li>
+                            <li>2. Is there something hidden in metadata?</li>
+                            <li>3. Is the challenge misleading you?</li>
+                        </ul>
+
+                        <p>
+                            You do not need to be certain — just have a direction to test. Most of the time the
+                            description points you where to look or the hints.
+                        </p>
+
+                        <h4>Step 5: Test Your Approach</h4>
+
+                        <p>
+                            Try your idea using tools or manual methods.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Decode strings</li>
+                            <li>2. Inspect files more deeply</li>
+                            <li>3. Use appropriate tools</li>
+                        </ul>
+
+                        <p>
+                            If your approach does not work, that is normal. Adjust your idea and try again.
+                        </p>
+
+                        <h4>Step 6: Use Hints if Needed</h4>
+
+                        <p>
+                            If you are stuck, use the available hints.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Hints are designed to guide you</li>
+                            <li>2. There is no penalty for using them</li>
+                            <li>3. They often point you in the right direction</li>
+                        </ul>
+
+                        <p>
+                            It is better to learn with guidance than to remain stuck.
+                        </p>
+
+                        <h4>Step 7: Identify the Flag</h4>
+
+                        <p>
+                            Once you believe you have found the solution, check if it matches the expected flag format.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Ensure the format is correct (e.g. <code>ConqCTF&#123;...&#125;</code>)</li>
+                            <li>2. Check for missing or extra characters</li>
+                            <li>3. Make sure there are no spaces</li>
+                        </ul>
+
+                        <h4>Step 8: Submit and Learn</h4>
+
+                        <p>
+                            Submit the flag and observe the feedback.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. If correct, move on to the next challenge</li>
+                            <li>2. If incorrect, review your approach</li>
+                        </ul>
+
+                        <p>
+                            Even after solving a challenge, take a moment to understand why the solution works.
+                            This is what builds your skills over time.
+                        </p>
+
+                        <h4>Key Idea</h4>
+
+                        <p>
+                            CTF challenges are designed to test your thinking, not your ability to guess.
+                        </p>
+
+                        <p>
+                            A structured approach will help you solve problems more efficiently and improve your
+                            understanding of cybersecurity concepts.
+                        </p>
+
+                    </mat-card>
+                </mat-expansion-panel>
+
+                <!-- TECHNIQUES -->
+                <mat-expansion-panel expanded id="techniques">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Beginner Techniques</mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <mat-card class="section-card">
+
+                        <p>
+                            Many CTF challenges can be solved using a small set of fundamental techniques. As a
+                            beginner, you do not need advanced tools — understanding basic methods is often enough.
+                        </p>
+
+                        <h4>Inspect Everything Carefully</h4>
+
+                        <p>
+                            The most important habit in CTF is attention to detail.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Read the challenge description more than once</li>
+                            <li>2. Look for unusual words, formats, or hints</li>
+                            <li>3. Check file names and extensions</li>
+                        </ul>
+
+                        <p>
+                            Small details are often intentional and can lead directly to the solution.
+                        </p>
+
+                        <h4>Analyze Files</h4>
+
+                        <p>
+                            Files provided in challenges often contain the solution or a clue.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Open files normally first</li>
+                            <li>2. Check for hidden content</li>
+                            <li>3. Look at metadata (information stored inside files)</li>
+                        </ul>
+
+                        <p>
+                            For example, images may contain hidden text inside their metadata.
+                        </p>
+
+                        <h4>Look for Encoded Data</h4>
+
+                        <p>
+                            Many challenges use encoded strings instead of plain text.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Base64 is very common</li>
+                            <li>2. Encoded text often looks like random characters</li>
+                            <li>3. Try decoding it using tools</li>
+                        </ul>
+
+                        <p>
+                            If something looks unusual, it is worth testing.
+                        </p>
+
+                        <h4>Use Simple Tools</h4>
+
+                        <p>
+                            You do not need complex tools to get started. A few basic tools can solve many beginner
+                            challenges.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Text editors for inspecting files</li>
+                            <li>2. Browser-based tools for decoding data</li>
+                            <li>3. Command-line tools for file analysis</li>
+                            <li>4. Tools like ExifTool for metadata inspection</li>
+                            <li>5. Tools like CyberChef for decoding data</li>
+                        </ul>
+
+                        <p>
+                            Focus on understanding what the tool does, not just using it.
+                        </p>
+
+                        <h4>Search and Learn</h4>
+
+                        <p>
+                            It is completely normal to search for unfamiliar concepts.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Look up unknown terms</li>
+                            <li>2. Read short explanations</li>
+                            <li>3. Try what you learn immediately</li>
+                        </ul>
+
+                        <p>
+                            CTF learning is a combination of solving problems and researching new ideas.
+                        </p>
+
+                        <h4>Use Hints When Needed</h4>
+
+                        <p>
+                            Hints are part of the learning process.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. They guide you toward the correct direction</li>
+                            <li>2. They help you avoid frustration</li>
+                            <li>3. There is no penalty for using them</li>
+                        </ul>
+
+                        <p>
+                            If you are stuck, using a hint is often the best next step.
+                        </p>
+
+                        <h4>Work Step by Step</h4>
+
+                        <p>
+                            Avoid trying random solutions. Instead, break the problem into smaller steps.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Understand the problem</li>
+                            <li>2. Try one approach</li>
+                            <li>3. Evaluate the result</li>
+                            <li>4. Adjust your strategy</li>
+                        </ul>
+
+                        <p>
+                            This structured approach is much more effective than guessing.
+                        </p>
+
+                        <h4>Key Idea</h4>
+
+                        <p>
+                            Most beginner challenges are not about advanced knowledge, but about using simple techniques
+                            correctly.
+                        </p>
+
+                        <p>
+                            If you stay patient and methodical, you will be able to solve them.
+                        </p>
+
+                    </mat-card>
+                </mat-expansion-panel>
+
+                <!-- EXAMPLE -->
+                <mat-expansion-panel expanded id="example">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Example Challenge</mat-panel-title>
+                    </mat-expansion-panel-header>
+
+
+                    <mat-card class="section-card">
+
+                        <p>
+                            In this section, we will walk through a simple example to demonstrate how a CTF challenge
+                            can be solved using basic techniques. Let's try to solve challenge 'Image meta'. You can
+                            see it <a routerLink="/challenges/16">here</a>.
+                        </p>
+
+                        <p>
+                            Looking at the challenge it is of type forensics, so we immediately can think that there
+                            could be something inside the file that is hidden at first. Let's read the description to
+                            make sure what we have.
+                        </p>
+
+                        <p>
+                            <code>Alex send an image to Bob telling him it is just an image. Can you believe her or is there something else in the image?</code>
+                        </p>
+
+
+                        <h4>Step 1: Understand the Clue</h4>
+
+                        <p>
+                            The description suggests that the image may contain hidden information. The phrase <em>"just
+                                an image"</em> is likely misleading and indicates that something is not
+                            visible at first glance.
+                        </p>
+
+                        <h4>Step 2: Inspect the File</h4>
+
+                        <p>
+                            After downloading the image, the first step is to analyze it.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Open the image normally</li>
+                            <li>2. Look for anything unusual</li>
+                        </ul>
+
+                        <p>
+                            If nothing obvious appears, the next step is to check the metadata of the image.
+                        </p>
+
+                        <h4>Step 3: Check Metadata</h4>
+
+                        <p>
+                            Images often contain metadata — hidden information such as title, author, or comments. Let's
+                            run the command <code>exiftool camera.jpeg</code> and look at what it gives us.
+                        </p>
+
+                        <p>
+                            Using a metadata tool, you may find something unusual in the image, such as a long string:
+                        </p>
+
+                        <p>
+                            <code>Description                     : Q29ucUNURns0bHc0eTUtY2gzY2stbTM3NGQ0NzRfNzU
+</code>
+                        </p>
+
+                        <p>
+                            This does not look like a normal sentence, which suggests it might be encoded.
+                        </p>
+
+                        <h4>Step 4: Identify the Encoding</h4>
+
+                        <p>
+                            The string looks similar to Base64 encoding, which is commonly used in CTF challenges.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. It contains only letters, numbers, and symbols like <code>=</code></li>
+                            <li>2. It has a structured pattern</li>
+                        </ul>
+
+                        <p>
+                            This is a strong indication that the data should be decoded.
+                        </p>
+
+                        <h4>Step 5: Decode the Data</h4>
+
+                        <p>
+                            Using a decoding tool such as CyberChef, paste the string and
+                            apply Base64 decoding. After decoding, you will obtain a readable string — this is the flag.
+                        </p>
+
+                        <h4>Step 6: Submit the Flag</h4>
+
+                        <p>
+                            Copy the decoded value and paste it into the flag submission field in the challenge.
+                            If everything is correct, the platform will confirm that the flag is valid.
+                        </p>
+
+                        <h4>What This Challenge Teaches</h4>
+
+                        <ul class="no-bullets">
+                            <li>1. Files may contain hidden information</li>
+                            <li>2. Metadata is an important source of clues</li>
+                            <li>3. Encoded data is common in CTF challenges</li>
+                            <li>4. Simple techniques can lead to the solution</li>
+                        </ul>
+
+                        <h4>Key Takeaway</h4>
+
+                        <p>
+                            Even when something appears simple, it may contain hidden layers.
+                        </p>
+
+                        <p>
+                            Always inspect files carefully and consider that data might be encoded or concealed in
+                            unexpected places.
+                        </p>
+
+                    </mat-card>
+                </mat-expansion-panel>
+
+                <!-- LINUX -->
+                <mat-expansion-panel expanded id="linux">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Linux & Tools</mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <mat-card class="section-card">
+
+                        <p>
+                            While challenges are accessed through the platform, most of the actual solving happens on
+                            your own system. Using the right environment and tools will make your work much easier.
+                        </p>
+
+                        <h3>Why Use Linux</h3>
+
+                        <p>
+                            Many cybersecurity tools are designed for Linux systems. These tools are powerful, widely
+                            used, and often easier to use compared to alternatives on other operating systems.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Better support for security tools</li>
+                            <li>2. Powerful command-line utilities</li>
+                            <li>3. Preferred environment for CTF players</li>
+                        </ul>
+
+                        <p>
+                            Using Linux is not required, but it is strongly recommended for a smoother experience.
+                        </p>
+
+                        <h3>Kali Linux</h3>
+
+                        <p>
+                            Kali is a Linux distribution specifically designed for cybersecurity and penetration
+                            testing. It comes preinstalled with many useful tools, so you do not need to install them
+                            manually. This makes it a great choice for beginners.
+                        </p>
+
+                        <h3>Using a Virtual Machine</h3>
+
+                        <p>
+                            If you are using Windows or another operating system, you do not need a separate computer to
+                            use Linux. You can run Linux inside a virtual machine using software such as VirtualBox.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Install VirtualBox on your system</li>
+                            <li>2. Download a Kali Linux image</li>
+                            <li>3. Run Kali inside the virtual machine</li>
+                        </ul>
+
+                        <p>
+                            This allows you to safely use Linux tools without modifying your main system.
+                        </p>
+
+                        <h3>Basic Tools to Know</h3>
+
+                        <p>
+                            You do not need many tools to get started. A few basic ones can solve a large number of
+                            beginner challenges.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>
+                                <strong>Metadata tools</strong> - for inspecting hidden information in files (for
+                                example images)
+                            </li>
+                            <li>
+                                <strong>Decoding tools</strong> - for converting encoded data into readable text
+                            </li>
+                            <li>
+                                <strong>Text editors</strong> - for manually inspecting files and data
+                            </li>
+                        </ul>
+
+                        <p>
+                            For example, tools like exiftool can reveal hidden data inside files, while tools like
+                            base64 can decode encoded strings.
+                        </p>
+
+                        <h3>How This Connects to Challenges</h3>
+
+                        <p>
+                            When you download files from a challenge, you will often:
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Open them in your system</li>
+                            <li>2. Inspect their contents</li>
+                            <li>3. Use tools to analyze hidden data</li>
+                        </ul>
+
+                        <p>
+                            Many solutions are found by combining simple tools with careful observation.
+                        </p>
+
+                        <h3>Key Idea</h3>
+
+                        <p>
+                            The platform provides the challenges, but your system provides the tools. Setting up a
+                            proper environment will make solving challenges easier and help you focus on
+                            learning instead of technical limitations.
+                        </p>
+
+                    </mat-card>
+                </mat-expansion-panel>
+
+                <!-- MISTAKES -->
+                <mat-expansion-panel expanded id="mistakes">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Common Mistakes</mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <mat-card class="section-card">
+
+                        <p>
+                            When starting with CTF challenges, it is common to make certain mistakes. Recognizing them
+                            early will help you improve faster and avoid unnecessary frustration.
+                        </p>
+
+                        <h3>Ignoring Small Details</h3>
+
+                        <p>
+                            Many challenges rely on subtle clues hidden in the description, file names, or data.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Overlooking a single word can block your progress</li>
+                            <li>2. Hidden hints are often easy to miss</li>
+                        </ul>
+
+                        <p>
+                            Always take time to carefully read and review all available information.
+                        </p>
+
+                        <h3>Not Downloading or Inspecting Files</h3>
+
+                        <p>
+                            Files are often the most important part of a challenge.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Some users try to solve challenges without downloading files</li>
+                            <li>2. Important data may only exist inside the file</li>
+                        </ul>
+
+                        <p>
+                            Always download and analyze every provided file.
+                        </p>
+
+                        <h3>Guessing the Flag</h3>
+
+                        <p>
+                            Submitting random guesses is not an effective strategy.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Flags must match exactly</li>
+                            <li>2. There is no partial correctness</li>
+                        </ul>
+
+                        <p>
+                            Instead of guessing, focus on understanding the problem and finding a logical solution.
+                        </p>
+
+                        <h3>Ignoring Hints</h3>
+
+                        <p>
+                            Some users avoid using hints even when they are stuck.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Hints are designed to guide you</li>
+                            <li>2. There is no penalty for using them</li>
+                        </ul>
+
+                        <p>
+                            Using hints is part of the learning process and can help you progress more efficiently.
+                        </p>
+
+                        <h3>Overcomplicating the Problem</h3>
+
+                        <p>
+                            Beginners often assume that challenges require complex solutions.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Many challenges are intentionally simple</li>
+                            <li>2. The solution may be straightforward once you notice the key detail</li>
+                        </ul>
+
+                        <p>
+                            Start with simple approaches before trying advanced techniques.
+                        </p>
+
+                        <h3>Not Verifying the Flag Format</h3>
+
+                        <p>
+                            Even if you find the correct value, submitting it incorrectly will result in failure.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Check the expected format (e.g. <code>ConqCTF&#123;...&#125;</code>)</li>
+                            <li>2. Remove extra spaces</li>
+                            <li>3. Ensure all characters are correct</li>
+                        </ul>
+
+                        <h3>Giving Up Too Quickly</h3>
+
+                        <p>
+                            Getting stuck is a normal part of solving challenges.
+                        </p>
+
+                        <ul class="no-bullets">
+                            <li>1. Take a break and return later</li>
+                            <li>2. Re-read the description</li>
+                            <li>3. Try a different approach</li>
+                        </ul>
+
+                        <p>
+                            Persistence is an important skill in cybersecurity.
+                        </p>
+
+                        <h3>Key Idea</h3>
+
+                        <p>
+                            Mistakes are part of the learning process. Each challenge you attempt helps you improve your
+                            problem-solving skills.
+                        </p>
+
+                        <p>
+                            Focus on understanding why something works or does not work — this is what leads to real
+                            progress.
+                        </p>
+
+                    </mat-card>
+                </mat-expansion-panel>
+
+            </mat-accordion>
+
+        </mat-card>
+
+    </main>
+</div>

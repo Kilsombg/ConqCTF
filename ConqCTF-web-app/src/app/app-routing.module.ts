@@ -11,7 +11,7 @@ const routes: Routes = [
   },
   {
     path: 'challenges',
-    canActivate : [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./challenges/challenges.module').then(m => m.ChallengesModule)
   },
@@ -20,6 +20,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, AdminGuard],
     loadChildren: () =>
       import('./admin/admin.module').then(m => m.AdminModule),
+  },
+  {
+    path: 'theory',
+    loadChildren: () =>
+      import('./theory/theory.module').then(m => m.TheoryModule)
   },
   {
     path: '',
@@ -33,7 +38,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    anchorScrolling: 'enabled',
+    scrollPositionRestoration: 'enabled'
+  })],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

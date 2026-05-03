@@ -4,6 +4,11 @@
     ConqCTF
   </span>
 
+  <button mat-button class="theory-nav" routerLink="/theory">
+    Learn
+  </button>
+
+
   <span class="spacer"></span>
 
   <button mat-icon-button (click)="toggleTheme()">
@@ -20,10 +25,7 @@
       Welcome, {{ user.email }}
     </span>
 
-    <button
-      mat-button
-      *ngIf="isAdmin(user)"
-      routerLink="/admin/challenges/create">
+    <button mat-button *ngIf="isAdmin(user)" routerLink="/admin/challenges/create">
       Create Challenge
     </button>
 

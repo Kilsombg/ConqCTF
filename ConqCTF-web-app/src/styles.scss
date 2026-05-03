@@ -53,6 +53,30 @@ $dark-theme: mat.define-dark-theme((color: (primary: $primary,
     filter: grayscale(70%);
     background-color: #EEE;
   }
+
+  background-color: #fafafa;
+
+  body {
+    background-color: #fafafa;
+  }
+
+  .toc-container {
+    background: #f5f5f5;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .toc a {
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .toc a:hover {
+    background: rgba(103, 58, 183, 0.08);
+    color: #673ab7;
+  }
+
+  .toc-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+  }
 }
 
 .dark-theme {
@@ -74,7 +98,33 @@ $dark-theme: mat.define-dark-theme((color: (primary: $primary,
   .challenge-card.solved {
     opacity: 0.85;
     filter: grayscale(40%);
-     background-color: rgba(255, 255, 255, 0.04);
+    background-color: rgba(255, 255, 255, 0.04);
+  }
+
+  background-color: #303030;
+  color: theme-text-color($dark-theme);
+
+  body {
+    background-color: #303030;
+  }
+
+
+  .toc-container {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .toc a {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .toc a:hover {
+    background: rgba(103, 58, 183, 0.2);
+    color: #b39ddb; // lighter purple for dark theme
+  }
+
+  .toc-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
   }
 }
 
@@ -110,4 +160,9 @@ body {
 .mat-mdc-snack-bar-container {
   border-radius: 8px;
   font-weight: 500;
+}
+
+
+html {
+  scroll-behavior: smooth;
 }
