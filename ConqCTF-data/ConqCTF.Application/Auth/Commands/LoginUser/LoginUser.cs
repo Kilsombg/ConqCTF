@@ -1,9 +1,11 @@
 ﻿
 using ConqCTF.Application.Common.Interfaces;
 using ConqCTF.Application.Common.Models;
+using ConqCTF.Application.Common.Security;
 
 namespace ConqCTF.Application.Auth.Commands.LoginUser
 {
+    [RateLimit(MaxRequests = 5, Seconds = 60, Type = RateLimitType.PerIdentifier)]
     public record LoginUserCommand : IRequest<(Result, string AccessToken, string RefreshToken)>
     {
         public string? Email { get; init; }

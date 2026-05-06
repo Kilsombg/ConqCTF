@@ -5,6 +5,7 @@ using ConqCTF.Application.Common.Security;
 namespace ConqCTF.Application.Challenges.Commands.SubmitFlag
 {
     [Authorize]
+    [RateLimit(MaxRequests = 5, Seconds = 60, Type = RateLimitType.PerUser)]
     public record SubmitFlagCommand : IRequest<Result>
     {
         public int ChallengeId { get; init; }

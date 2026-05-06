@@ -17,6 +17,7 @@ namespace ConqCTF.WebApi.Infrastructure
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
                 { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
+                { typeof(RateLimitExceededException), HandleRateLimitExceededException }
             };
         }
 
@@ -82,6 +83,18 @@ namespace ConqCTF.WebApi.Infrastructure
                 Status = StatusCodes.Status403Forbidden,
                 Title = "Forbidden",
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3"
+            });
+        }
+
+        private async Task HandleRateLimitExceededException(HttpContext httpContext, Exception ex)
+        {
+            httpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+
+            await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
+            {
+                Status = StatusCodes.Status429TooManyRequests,
+                Title = "Too Many Requests",
+                Type = "https://datatracker.ietf.org/doc/html/rfc6585#section-4"
             });
         }
     }

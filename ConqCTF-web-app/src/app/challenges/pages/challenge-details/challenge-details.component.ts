@@ -19,7 +19,7 @@ export class ChallengeDetailsComponent implements OnInit {
   challenge?: ChallengeDetailsDto;
   selectedHintIndex: number | null = null;
   flag = '';
-  error?: string;
+  error?: string | any;
   success?: string;
 
   isAdmin = false;
@@ -82,6 +82,10 @@ export class ChallengeDetailsComponent implements OnInit {
           this.error = err.error;
           this.success = undefined;
 
+          if (!Array.isArray(this.error)) {
+            this.error = this.error?.title;
+          }
+
           this.feedback.error(this.error!);
         }
       });
@@ -133,7 +137,7 @@ export class ChallengeDetailsComponent implements OnInit {
 
     this.challengesService.deleteChallenge(this.challenge.id).subscribe({
       next: () => {
-        this.dialogRef.close({deleted : true});
+        this.dialogRef.close({ deleted: true });
       },
       error: () => {
       }

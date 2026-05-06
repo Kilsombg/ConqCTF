@@ -45,8 +45,12 @@ export class LoginComponent implements OnInit {
       next: () => {
         this.router.navigate(['/challenges']);
       },
-      error: () => {
-        this.errorMessage = 'Invalid email or password';
+      error: err => {
+        if(err.status === 429) {
+          this.errorMessage = 'Too many tries';
+        } else {
+          this.errorMessage = 'Invalid email or password';
+        }
         this.loading = false;
       }
     });

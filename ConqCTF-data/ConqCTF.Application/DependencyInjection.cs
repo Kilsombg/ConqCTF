@@ -15,6 +15,7 @@ namespace ConqCTF.Application
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
                 cfg.AddOpenRequestPreProcessor(typeof(LoggingBehaviour<>));
                 cfg.AddOpenBehavior(typeof(UnhandledExceptionBehaviour<,>));
+                cfg.AddOpenBehavior(typeof(RateLimitBehaviour<,>));
                 cfg.AddOpenBehavior(typeof(AuthorizationBehaviour<,>));
                 cfg.AddOpenBehavior(typeof(ValidationBehaviour<,>));
             });
