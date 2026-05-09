@@ -10,4 +10,5 @@ export interface LoginResponse {
 
 export interface RefreshTokenResponce {
   accessToken : string;
+   refreshToken: string;
 }

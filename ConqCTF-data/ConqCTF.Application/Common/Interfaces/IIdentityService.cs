@@ -12,7 +12,7 @@ namespace ConqCTF.Application.Common.Interfaces
 
         Task<(Result, string AccessToken, string RefreshToken)> LoginAsync(string email,string password);
 
-        Task<(Result, string AccessToken)> RefreshTokenAsync(string refreshToken);
+        Task<(Result, string AccessToken, string RefreshToken)> RefreshTokenAsync(string refreshToken);
 
         Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password);
 

@@ -124,7 +124,7 @@ namespace ConqCTF.Infrastructure.Identity
             return (Result.Success(), accessToken, refreshToken);
         }
 
-        public async Task<(Result, string AccessToken)> RefreshTokenAsync(string refreshToken)
+        public async Task<(Result, string AccessToken, string RefreshToken)> RefreshTokenAsync(string refreshToken)
         {
             var storedToken = await _context.RefreshTokens
                 .Include(rt => rt.User)
@@ -134,12 +134,23 @@ namespace ConqCTF.Infrastructure.Identity
                 storedToken.IsRevoked ||
                 storedToken.Expires < DateTime.UtcNow)
             {
-                return (Result.Failure(new[] { "Invalid refresh token" }), "");
+                return (Result.Failure(new[] { "Invalid refresh token" }), "", "");
             }
 
             var newAccessToken = await _jwtTokenGenerator.GenerateTokenAsync(storedToken.User);
+            var newRefreshToken = GenerateRefreshToken();
 
-            return (Result.Success(), newAccessToken);
+            storedToken.IsRevoked = true;
+            _context.RefreshTokens.Add(new RefreshToken
+            {
+                Token = newRefreshToken,
+                UserId = storedToken.UserId,
+                Expires = DateTime.UtcNow.AddDays(15)
+            });
+
+            await _context.SaveChangesAsync();
+
+            return (Result.Success(), newAccessToken, newRefreshToken);
         }
 
         public async Task<Result> LogoutAsync(string refreshToken)

@@ -3,13 +3,13 @@ using ConqCTF.Application.Common.Models;
 
 namespace ConqCTF.Application.Auth.Commands.RefreshToken
 {
-    public record RefreshTokenCommand : IRequest<(Result, string AccessToken)>
+    public record RefreshTokenCommand : IRequest<(Result, string AccessToken, string RefreshToken)>
     {
         public string? RefreshToken { get; init; }
     }
 
 
-    public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, (Result, string AccessToken)>
+    public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, (Result, string AccessToken, string RefreshToken)>
     {
         private readonly IIdentityService _identityService;
 
@@ -18,7 +18,7 @@ namespace ConqCTF.Application.Auth.Commands.RefreshToken
             _identityService = identityService;
         }
 
-        public async Task<(Result, string AccessToken)> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+        public async Task<(Result, string AccessToken, string RefreshToken)> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
             return await _identityService.RefreshTokenAsync(request.RefreshToken);
         }

@@ -17,7 +17,7 @@ export class AuthService {
     private http: HttpClient,
     private tokenService: TokenService,
     private authStateService: AuthStateService
-  ) {}
+  ) { }
 
   login(request: LoginRequest): Observable<LoginResponse> {
     return this.http
@@ -31,11 +31,15 @@ export class AuthService {
       );
   }
 
-  refreshToken(): Observable<RefreshTokenResponce>
-  {
+  refreshToken(): Observable<RefreshTokenResponce> {
     const refreshToken = this.tokenService.getRefreshToken();
 
-    return this.http.post<RefreshTokenResponce>(`${this.apiUrl}/refresh`, { refreshToken });
+    return this.http.post<RefreshTokenResponce>(`${this.apiUrl}/refresh`, { refreshToken })
+      .pipe(
+        tap(response => {
+          this.tokenService.saveTokens(response.accessToken, response.refreshToken);
+        })
+      );
   }
 
   register(request: LoginRequest): Observable<void> {
@@ -46,7 +50,7 @@ export class AuthService {
     const refreshToken = this.tokenService.getRefreshToken();
 
     return this.http
-      .post<void>(`${this.apiUrl}/logout`, {refreshToken})
+      .post<void>(`${this.apiUrl}/logout`, { refreshToken })
       .pipe(
         tap(() => {
           this.tokenService.clearTokens();

@@ -38,13 +38,13 @@ namespace ConqCTF.WebApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Refresh(RefreshRequest request)
         {
-            var (result, accessToken) = await _sender.Send(new RefreshTokenCommand()
+            var (result, accessToken, refreshToken) = await _sender.Send(new RefreshTokenCommand()
             {
                 RefreshToken = request.RefreshToken
             });
 
             return result.Succeeded
-                ? Ok(new { accessToken })
+                ? Ok(new { accessToken, refreshToken })
                 : Unauthorized(result.Errors);
         }
 

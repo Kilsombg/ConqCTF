@@ -38,13 +38,7 @@ export class AuthGuard implements CanActivate {
 
     return this.authService.refreshToken()
       .pipe(
-        map(responce => {
-          this.tokenService.saveTokens(
-            responce.accessToken,
-            this.tokenService.getRefreshToken()!
-          );
-          return true;
-        }),
+        map( () => true),
         catchError(() => {
           this.authService.logout().subscribe();
           this.redirectToLogin();
