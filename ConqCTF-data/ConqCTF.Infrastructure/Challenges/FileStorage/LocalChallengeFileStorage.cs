@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using ConqCTF.Application.Common.Interfaces;
 using ConqCTF.Application.Common.Models;
+using ConqCTF.Infrastructure.Security;
 using Microsoft.AspNetCore.Hosting;
 
 namespace ConqCTF.Infrastructure.Challenges.FileStorage
@@ -40,6 +41,9 @@ namespace ConqCTF.Infrastructure.Challenges.FileStorage
 
         public async Task<string> SaveAsync(int challengeId, FileUpload file, CancellationToken ct)
         {
+            // Validate extension, magic bytes, and size before touching the filesystem
+            await FileUploadValidator.ValidateAsync(file);
+
             // Strip any path component the client supplies
             var safeFileName = Path.GetFileName(Uri.UnescapeDataString(file.FileName));
 

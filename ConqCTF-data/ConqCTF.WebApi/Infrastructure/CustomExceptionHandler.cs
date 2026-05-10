@@ -17,7 +17,8 @@ namespace ConqCTF.WebApi.Infrastructure
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
                 { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
-                { typeof(RateLimitExceededException), HandleRateLimitExceededException }
+                { typeof(RateLimitExceededException), HandleRateLimitExceededException },
+                { typeof(InvalidFileException), HandleInvalidFileException },
             };
         }
 
@@ -95,6 +96,19 @@ namespace ConqCTF.WebApi.Infrastructure
                 Status = StatusCodes.Status429TooManyRequests,
                 Title = "Too Many Requests",
                 Type = "https://datatracker.ietf.org/doc/html/rfc6585#section-4"
+            });
+        }
+
+        private async Task HandleInvalidFileException(HttpContext httpContext, Exception ex)
+        {
+            httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+            await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Title = "Invalid file upload.",
+                Detail = ex.Message,
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             });
         }
     }

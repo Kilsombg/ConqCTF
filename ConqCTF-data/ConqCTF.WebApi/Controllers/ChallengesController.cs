@@ -54,6 +54,8 @@ public class ChallengesController : ControllerBase
         return Ok(result);
     }
 
+    [RequestSizeLimit(104_857_600)]          // 100 MB
+    [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     [HttpPost]
     [Consumes("multipart/form-data")]
     public async Task<ActionResult<int>> Create([FromForm] CreateChallengeRequest request, CancellationToken ct)
@@ -80,6 +82,8 @@ public class ChallengesController : ControllerBase
     }
 
 
+    [RequestSizeLimit(104_857_600)]         // 100 MB
+    [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     [HttpPut("{id:int}")]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> Update(int id, [FromForm] UpdateChallengeRequest request, CancellationToken ct)
@@ -148,7 +152,8 @@ public class ChallengesController : ControllerBase
         return new FileUpload
         {
             FileName = file.FileName,
-            Content = file.OpenReadStream()
+            Content = file.OpenReadStream(),
+            Size = file.Length
         };
     }
 }

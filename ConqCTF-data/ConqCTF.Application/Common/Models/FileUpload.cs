@@ -5,5 +5,7 @@
         public string? FileName { get; init; }
         
         public Stream? Content { get; init; }
+
+        public long Size { get; init; }
     }
 }
