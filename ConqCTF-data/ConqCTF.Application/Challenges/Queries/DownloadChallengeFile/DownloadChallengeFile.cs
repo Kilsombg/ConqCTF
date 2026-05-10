@@ -1,9 +1,11 @@
 ﻿using ConqCTF.Application.Common.Interfaces;
 using ConqCTF.Application.Common.Models;
+using ConqCTF.Application.Common.Security;
 using ConqCTF.Domain.Entities;
 
 namespace ConqCTF.Application.Challenges.Queries.DownloadChallengeFile
 {
+    [Authorize]
     public record DownloadChallengeFileQuery : IRequest<DownloadedFile>
     {
         public int ChallengeId { get; init; }
@@ -27,7 +29,10 @@ namespace ConqCTF.Application.Challenges.Queries.DownloadChallengeFile
         {
             var challenge = await _challengeService.GetEntityAsync(request.ChallengeId, cancellationToken);
 
-            var file = challenge.Files.FirstOrDefault(f => f.FileName == request.FileName);
+            // Sanitize before DB lookup — eliminates any traversal sequences in the request
+            var safeFileName = Path.GetFileName(Uri.UnescapeDataString(request.FileName));
+
+            var file = challenge.Files.FirstOrDefault(f => f.FileName == safeFileName);
 
             if (file is null)
                 throw new NotFoundException(nameof(Challenge), request.ChallengeId.ToString());

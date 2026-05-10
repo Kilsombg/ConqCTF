@@ -1,4 +1,5 @@
-﻿using ConqCTF.Application.Common.Interfaces;
+﻿using Azure.Core;
+using ConqCTF.Application.Common.Interfaces;
 using ConqCTF.Application.Common.Models;
 using Microsoft.AspNetCore.Hosting;
 
@@ -15,6 +16,14 @@ namespace ConqCTF.Infrastructure.Challenges.FileStorage
 
         public Task<Stream> OpenAsync(string path, CancellationToken cancellationToken)
         {
+            var fullPath = Path.GetFullPath(path);
+            var expectedRoot = Path.GetFullPath(_rootPath);
+
+            // Canonical path guard — stored path must resolve inside the root data directory
+            if (!fullPath.StartsWith(expectedRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+                throw new UnauthorizedAccessException("Path traversal detected.");
+
+
             if (!File.Exists(path))
                 throw new FileNotFoundException(path);
 
@@ -31,16 +40,27 @@ namespace ConqCTF.Infrastructure.Challenges.FileStorage
 
         public async Task<string> SaveAsync(int challengeId, FileUpload file, CancellationToken ct)
         {
-            var dir = Path.Combine(_rootPath, challengeId.ToString());
+            // Strip any path component the client supplies
+            var safeFileName = Path.GetFileName(Uri.UnescapeDataString(file.FileName));
+
+            if (string.IsNullOrWhiteSpace(safeFileName))
+                throw new ArgumentException("Invalid file name.");
+
+            var dir = Path.GetFullPath(Path.Combine(_rootPath, challengeId.ToString()));
+
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
-            var path = Path.Combine(dir, file.FileName);
+            var fullPath = Path.GetFullPath(Path.Combine(dir, safeFileName));
 
-            await using var stream = File.Create(path);
-            await file.Content.CopyToAsync(stream, ct);
+            // Canonical path guard — ensures the resolved path stays inside the challenge directory
+            if (!fullPath.StartsWith(dir + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+                throw new UnauthorizedAccessException("Path traversal detected.");
 
-            return path;
+            await using var stream = File.Create(fullPath);
+            await file.Content!.CopyToAsync(stream, ct);
+
+            return fullPath;
         }
 
         public Task DeleteAsync(string path, CancellationToken ct)
