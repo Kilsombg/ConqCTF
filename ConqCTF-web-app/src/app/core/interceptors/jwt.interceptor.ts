@@ -11,6 +11,7 @@ import {
   Observable,
   catchError,
   filter,
+  of,
   switchMap,
   take,
   throwError
@@ -27,7 +28,7 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     private tokenService: TokenService
-  ) {}
+  ) { }
 
   intercept(
     request: HttpRequest<any>,
@@ -82,7 +83,11 @@ export class JwtInterceptor implements HttpInterceptor {
         }),
         catchError(err => {
           this.isRefreshing = false;
-          this.tokenService.clearTokens();
+
+          this.authService.logout().pipe(
+            catchError(() => of(null))
+          ).subscribe();
+          
           return throwError(() => err);
         })
       );
@@ -103,6 +108,6 @@ export class JwtInterceptor implements HttpInterceptor {
 
   private isAuthEndpoint(request: HttpRequest<any>): boolean {
     return request.url.includes('/auth/login')
-        || request.url.includes('/auth/refresh');
+      || request.url.includes('/auth/refresh');
   }
 }

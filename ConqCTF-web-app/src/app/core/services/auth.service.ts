@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { LoginRequest, LoginResponse, RefreshTokenResponce } from '../../auth/auth.models';
 import { TokenService } from './token.service';
 import { environment } from 'src/environments/environment';
@@ -49,12 +49,23 @@ export class AuthService {
   logout(): Observable<void> {
     const refreshToken = this.tokenService.getRefreshToken();
 
+    if (!refreshToken) {
+      this.tokenService.clearTokens();
+      this.authStateService.clear();
+      return of(void 0);
+    }
+
     return this.http
       .post<void>(`${this.apiUrl}/logout`, { refreshToken })
       .pipe(
         tap(() => {
           this.tokenService.clearTokens();
           this.authStateService.clear();
+        }),
+        catchError(() => {
+          this.tokenService.clearTokens();
+          this.authStateService.clear();
+          return of(void 0);
         })
       );
   }
