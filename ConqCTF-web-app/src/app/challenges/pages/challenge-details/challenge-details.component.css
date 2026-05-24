@@ -1,8 +1,14 @@
 .challenge-details-card {
   max-width: 900px;
-  margin: 24px auto;
+  margin: 12px auto 0 auto;
   padding: 16px;
 }
+
+.challenge-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
 
 .close-btn {
   position: absolute;
